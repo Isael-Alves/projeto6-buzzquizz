@@ -6,19 +6,19 @@ function functionsIniciais() {
 }
 
 function IniciandoBuzzQuizz() {
-    document.querySelector(".CriarQuizzes").innerHTML += `  
+    document.querySelector(".criarQuizzes").innerHTML += `  
             <h4>Você não criou nenhum quizz ainda :(</h4>
-            <div class="Button-Criar-Quiz">Criar Quizz</div>  
+            <div class="buttonCriarQuizz">Criar Quizz</div>  
     `
 }
 
 function BuscandoQuizzes() {
-    let promise = axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes');
+    let promise = axios.get('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes');
     promise.then((resposta) => {
         const QuizzesAPI = resposta.data;
         QuizzesAPI.map((dados, i) => {
-            document.querySelector(".TodosQuizzes ul").innerHTML += `
-            <li class="Quizz" id=${dados.id} key=${i} onclick="EntrandoQuizz(this)">
+            document.querySelector(".todosQuizzes ul").innerHTML += `
+            <li class="quizz" id=${dados.id} key=${i} onclick="EntrandoQuizz(this)">
                <img src="${dados.image}" alt="">
                <h3>${dados.title}</h3>
             </li>`
@@ -31,15 +31,15 @@ function BuscandoQuizzes() {
 }
 
 function EntrandoQuizz(quizz) {
-    document.querySelector(".TelaInicial").classList.add("Hidden");
-    document.querySelector(".TelaQuizz").classList.remove("Hidden");
+    document.querySelector(".telaInicial").classList.add("hidden");
+    document.querySelector(".telaQuizz").classList.remove("hidden");
 
-    const Quizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizz.id}`);
+    const Quizz = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${quizz.id}`);
     Quizz.then((resposta) => {
         const DadosQuizz = resposta.data;
         const Questions = DadosQuizz.questions;
 
-        document.querySelector(".TitleQuizz").innerHTML += `
+        document.querySelector(".titleQuizz").innerHTML += `
            <img src=${DadosQuizz.image} alt="">
            <h2>${DadosQuizz.title}</h2>
         `
@@ -52,10 +52,10 @@ function EntrandoQuizz(quizz) {
             const Card3 = Option[ArrayOptions[2]];
             const Card4 = Option[ArrayOptions[3]];
 
-            console.log(dados.answers);
-            document.querySelector(".BoxQuestions").innerHTML += `
-            <article class="Questions">
-                    <div class="Question">
+            console.log(dados);
+            document.querySelector(".boxQuestions").innerHTML += `
+            <article class="questions">
+                    <div class="question" style = "background-color:${dados.color};">
                         <p>${dados.title}</p>
                     </div>
 
@@ -96,9 +96,9 @@ function shuffleArray(arr) {
 }
 
 function FinishingQuizz() {
-    document.querySelector(".BoxQuestions").innerHTML += `
-        <article class="PlayerScore">
-            <div class="Text">
+    document.querySelector(".boxQuestions").innerHTML += `
+        <article class="playerScore">
+            <div class="text">
                 <p>
                     88% de acerto: Você é praticamente um aluno de Hogwarts!
                 </p>
@@ -117,9 +117,9 @@ function FinishingQuizz() {
                 </li>
             </ul>
         </article>
-        <div class="FinishQuizz">
-            <div class="Button">Reiniciar Quizz</div>
-            <h6 class="BackHome">Voltar pra home</h6>
+        <div class="finishQuizz">
+            <div class="button">Reiniciar Quizz</div>
+            <h6 class="backHome">Voltar pra home</h6>
         </div>`
 }
 
