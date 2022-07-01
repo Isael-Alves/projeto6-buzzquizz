@@ -1,4 +1,4 @@
-let ArrayOptions = [];
+let QuestionsEmbaralhadas = [];
 
 function functionsIniciais() {
     IniciandoBuzzQuizz();
@@ -37,52 +37,46 @@ function EntrandoQuizz(quizz) {
     const Quizz = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${quizz.id}`);
     Quizz.then((resposta) => {
         const DadosQuizz = resposta.data;
-        const Questions = DadosQuizz.questions;
+        let Questions = DadosQuizz.questions;
 
         document.querySelector(".titleQuizz").innerHTML += `
            <img src=${DadosQuizz.image} alt="">
            <h2>${DadosQuizz.title}</h2>
         `
         Questions.map((dados, i) => {
-            let Option = dados.answers;
+            let Respostas = dados.answers;
 
-            shuffleArray([0,1,1,1]);
-            const Card1 = Option[ArrayOptions[0]];
-            const Card2 = Option[ArrayOptions[1]];
-            const Card3 = Option[ArrayOptions[2]];
-            const Card4 = Option[ArrayOptions[3]];
-
-            console.log(dados);
             document.querySelector(".boxQuestions").innerHTML += `
-            <article class="questions">
+            <section class="questions" key=${i}>
                     <div class="question" style = "background-color:${dados.color};">
                         <p>${dados.title}</p>
                     </div>
 
                     <ul>
-                        <li class="${Card1.isCorrectAnswer}">
-                            <img src="${Card1.image}" alt="">
-                            <h5>${Card1.text}</h5>
-                        </li>
-                        <li class="${Card2.isCorrectAnswer}">
-                            <img src="${Card2.image}" alt="">
-                            <h5>${Card2.text}</h5>
-                        </li>
-                        <li class="${Card3.isCorrectAnswer}">
-                            <img src="${Card3.image}" alt="">
-                            <h5>${Card3.text}</h5>
-                        </li>
-                        <li class="${Card4.isCorrectAnswer}">
-                            <img src="${Card4.image}" alt="">
-                            <h5>${Card4.text}</h5>
-                        </li>
+                        ${ColocadorOptionsRespostas(Respostas)}
                     </ul>
-            </article>`
-
+            </section>`
         });
         FinishingQuizz();
 
     });
+}
+
+function ColocadorOptionsRespostas(Respostas) {
+
+    shuffleArray(Respostas);
+
+    let OptionsRespostas = ``;
+    QuestionsEmbaralhadas.map((dados, i) => {
+
+        OptionsRespostas += `
+          <li class="${dados.isCorrectAnswer}" key="${i}">
+              <img src="${dados.image}" alt="">
+              <h5>${dados.text}</h5>
+          </li>
+          `
+    });
+    return OptionsRespostas;
 }
 
 //Embarralhador de Arrays
@@ -91,8 +85,8 @@ function shuffleArray(arr) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-    ArrayOptions = arr;
-    return ArrayOptions;
+    QuestionsEmbaralhadas = arr;
+    return QuestionsEmbaralhadas;
 }
 
 function FinishingQuizz() {
@@ -132,6 +126,6 @@ function checkURL() {
     const linkurl = document.getElementById("linkurl").value;
     const urlcorreto = (linkurl.match(/\.(jpeg|jpg|gif|png)$/) != null);
     arrayproximoNivel.push(urlcorreto);
-       urlNivel = linkurl;
+    urlNivel = linkurl;
     return urlNivel;
 }
