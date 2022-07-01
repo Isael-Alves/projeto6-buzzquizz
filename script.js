@@ -124,3 +124,14 @@ function FinishingQuizz() {
 }
 
 functionsIniciais();
+
+
+// ===================================== Tela 3 ===============================================
+
+function checkURL() {
+    const linkurl = document.getElementById("linkurl").value;
+    const urlcorreto = (linkurl.match(/\.(jpeg|jpg|gif|png)$/) != null);
+    arrayproximoNivel.push(urlcorreto);
+       urlNivel = linkurl;
+    return urlNivel;
+}
