@@ -8,7 +8,7 @@ function functionsIniciais() {
 function IniciandoBuzzQuizz() {
     document.querySelector(".criarQuizzes").innerHTML += `  
             <h4>Você não criou nenhum quizz ainda :(</h4>
-            <div class="buttonCriarQuizz" onclick="transferToCreatingQuizz()">Criar Quizz</div>  
+            <div class="buttonCriarQuizz" onclick="IniciarCriacaoQuizz()">Criar Quizz</div>  
     `
 }
 
@@ -58,7 +58,6 @@ function EntrandoQuizz(quizz) {
             </section>`
         });
         FinishingQuizz();
-
     });
 }
 
@@ -121,51 +120,128 @@ functionsIniciais();
 
 
 // ===================================== Tela 3 ===============================================
+let checkUrlImage;
 
-function transferToCreatingQuizz() {
+function IniciarCriacaoQuizz(){
     document.querySelector(".telaInicial").classList.add('hidden');
     document.querySelector(".telaCriandoQuizz").classList.remove('hidden');
-    document.querySelector(".informacoesBasicas").classList.remove('hidden');
+
+    document.querySelector(".telaCriandoQuizz").innerHTML +=
+    `<section class="tela informacoesBasicas">
+        <section>
+        
+            <h1>Comece pelo começo</h1>
+
+            <div class="criadorDadosIniciais2">
+                <input type="text" class="titulo"       placeholder="Título do seu quizz">
+                <input type="text" class="linkUrl"      placeholder="URL da imagem do seu quizz">
+                <input type="text" class="qtdPerguntas" placeholder="Quantidade de perguntas do quizz">
+                <input type="text" class="qtdNiveis"    placeholder="Quantidade de níveis do quizz">
+            </div>
+
+            <div class="botaoCriarPerguntas button" onclick="checkInicial()">Prosseguir pra criar perguntas</div>
+        </section>
+    </section>`
 }
 
 function checkTitle() {
-    const title = document.querySelector("#titulo").value;
+    let checkTitle = false;
+
+    const title = document.querySelector(".titulo").value;
     let tlt = title.length;
     if (tlt > 20 && tlt < 65) {
         titulos = true;
-        return titulos;
-    } return false;
+        checkTitle = true;
+    }
+    return checkTitle;
 }
 
 function checkURL() {
-    const linkurl = document.getElementById("linkurl").value;
-    const urlcorreto = (linkurl.match(/\.(jpeg|jpg|gif|png)$/) != null);
-    arrayproximoNivel.push(urlcorreto);
-    urlNivel = linkurl;
-    return urlNivel;
+    const linkurl = document.querySelector(".linkUrl").value;
+    const urlcorreto = (linkurl.match(/\.(jpeg|jpg|gif|png)$/) !== null);
+    checkUrlImage = urlcorreto;
+    return checkUrlImage;
 }
 
 function checkQtdQuestions() {
-    const questions = document.querySelector("#qtdPerguntas").value;
-    if (questions > 3) {
-        pergs = true;
-        return pergs;
-    } return false;
+    checkQtdPergs = false;
+    const questions = document.querySelector(".qtdPerguntas").value;
+    if (questions > 2) checkQtdPergs = true;
+    return checkQtdPergs;
 }
 
 function checkQtdLevels() {
-    const levels = document.querySelector("#qtdNiveis").value;
-    if (levels > 2) {
-        nivels = true;
-        return nivels;
-    } return false;
+    nivels = false;
+    const levels = document.querySelector(".qtdNiveis").value;
+    if (levels > 1) nivels = true;
+    return nivels;
 }
 
 function checkInicial() {
+    checkTitle();
+    checkURL();
+    checkQtdQuestions();
+    checkQtdLevels();
 
-    if (titulos !== false && urlNivel !== false && pergs !== false && nivels !== false) {
+    if (checkTitle && checkUrlImage && checkQtdPergs && nivels) {
+
         document.querySelector(".informacoesBasicas").classList.add("hidden");
-        document.querySelector(".perguntas").classList.remove("hidden");
+
+        document.querySelector(".telaCriandoQuizz").innerHTML +=`
+        <section class="tela perguntas">
+            <section class="criaQuizz">
+
+                <h1>Crie suas perguntas</h1>
+
+                <div class="criadorDadosIniciais2">
+                    <div>
+                        <h2>Pergunta 1</h2>
+
+                        <div class="inputs">
+                            <input type="text" placeholder="Texto da pergunta">
+                            <input type="text" placeholder="Cor de fundo da pergunta">
+                        </div>
+                    </div>
+                    <div class="corretaCriador">
+                        <h2>Resposta correta</h2>
+                        <div class="inputs">
+                            <input type="text" placeholder="Resposta correta">
+                            <input type="text" placeholder="URL da imagem">
+                        </div>
+                    </div>
+                    <div class="incorretaCriador">
+                        <h2>Respostas incorretas</h2>
+                        <div>
+                            <input type="text" placeholder="Resposta incorreta 1">
+                            <input type="text" placeholder="URL da imagem 1">
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Resposta incorreta 2">
+                            <input type="text" placeholder="URL da imagem 2">
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Resposta incorreta 3">
+                            <input type="text" placeholder="URL da imagem 3">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="criadorDadosIniciais2">
+                    <h2>Pergunta 2</h2>
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+
+                <div class="criadorDadosIniciais2">
+                    <h2>Pergunta 3</h2>
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+
+                <div class="prosseguirNiveis button" onclick="checkInicial()">Prosseguir pra criar níveis</div>
+            </section>
+        </section>
+        `;
+    
+    
     } else {
         alert('Por favor, preencha os dados corretamente!');
     }
