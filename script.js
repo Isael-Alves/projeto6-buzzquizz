@@ -8,7 +8,7 @@ function functionsIniciais() {
 function IniciandoBuzzQuizz() {
     document.querySelector(".criarQuizzes").innerHTML += `  
             <h4>Você não criou nenhum quizz ainda :(</h4>
-            <div class="buttonCriarQuizz">Criar Quizz</div>  
+            <div class="buttonCriarQuizz" onclick="transferToCreatingQuizz()">Criar Quizz</div>  
     `
 }
 
@@ -20,7 +20,7 @@ function BuscandoQuizzes() {
             document.querySelector(".todosQuizzes ul").innerHTML += `
             <li class="quizz" id=${dados.id} key=${i} onclick="EntrandoQuizz(this)">
                <img src="${dados.image}" alt="">
-               <h3>${dados.title}</h3>
+               <h3>${dados.title}</h3>'
             </li>`
         });
     });
@@ -122,10 +122,51 @@ functionsIniciais();
 
 // ===================================== Tela 3 ===============================================
 
+function transferToCreatingQuizz() {
+    document.querySelector(".telaInicial").classList.add('hidden');
+    document.querySelector(".telaCriandoQuizz").classList.remove('hidden');
+    document.querySelector(".informacoesBasicas").classList.remove('hidden');
+}
+
+function checkTitle() {
+    const title = document.querySelector("#titulo").value;
+    let tlt = title.length;
+    if (tlt > 20 && tlt < 65) {
+        titulos = true;
+        return titulos;
+    } return false;
+}
+
 function checkURL() {
     const linkurl = document.getElementById("linkurl").value;
     const urlcorreto = (linkurl.match(/\.(jpeg|jpg|gif|png)$/) != null);
     arrayproximoNivel.push(urlcorreto);
     urlNivel = linkurl;
     return urlNivel;
+}
+
+function checkQtdQuestions() {
+    const questions = document.querySelector("#qtdPerguntas").value;
+    if (questions > 3) {
+        pergs = true;
+        return pergs;
+    } return false;
+}
+
+function checkQtdLevels() {
+    const levels = document.querySelector("#qtdNiveis").value;
+    if (levels > 2) {
+        nivels = true;
+        return nivels;
+    } return false;
+}
+
+function checkInicial() {
+
+    if (titulos !== false && urlNivel !== false && pergs !== false && nivels !== false) {
+        document.querySelector(".informacoesBasicas").classList.add("hidden");
+        document.querySelector(".perguntas").classList.remove("hidden");
+    } else {
+        alert('Por favor, preencha os dados corretamente!');
+    }
 }
