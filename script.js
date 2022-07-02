@@ -1,5 +1,7 @@
 let QuestionsEmbaralhadas = [];
-let Questions, id, pergunt;
+let Questions, id, id2, pergunt, correto;
+let soma=0;
+let score=0;
 let cont=1;
 
 function functionsIniciais() {
@@ -59,7 +61,7 @@ function EntrandoQuizz(quizz) {
                     </ul>
             </section>`
         });
-        FinishingQuizz();
+    
     });
 }
 
@@ -109,15 +111,17 @@ for(let i = 0; i < filhos.length; i++) {
 }
     let filhosTxt = pai.querySelectorAll('h5');
     let filhosLi = pai.querySelectorAll('li');
-    
+
     for(i = 0; i < filhosTxt.length; i++) {
     if(filhosLi[i].classList.contains('true')){
         filhosTxt[i].className += "verde";
+        correto = filhosLi[i];
     } else{
     filhosTxt[i].className += "vermelho";
     }
 }
 proximaPag();
+confereResposta(element);
 }
 
 function proximaPag(){
@@ -125,7 +129,9 @@ function proximaPag(){
     if(cont<pergunt.length){
     id = setInterval(scrollaParaProximaPergunta,2000);}
     else{
-        return null;
+    calculatePerformance();
+    FinishingQuizz();
+     id2 = setInterval(scrollaParaResultado, 2000); 
     }
 }
 
@@ -135,13 +141,31 @@ function scrollaParaProximaPergunta(){
     cont++;
     } 
 
+function scrollaParaResultado(){
+    const irParaCaixadeResultado = document.querySelector('.playerScore');
+    irParaCaixadeResultado.scrollIntoView();
+    clearInterval(id2);
+} 
+
+function confereResposta(element){
+    if(element === correto){
+        soma++;
+        console.log(soma);
+    }
+}
+
+
+function calculatePerformance(){
+    score = Math.round(((soma)/(pergunt.length))*100);
+    console.log(score);
+}
 
 function FinishingQuizz() {
     document.querySelector(".boxQuestions").innerHTML += `
         <article class="playerScore">
             <div class="text">
                 <p>
-                    88% de acerto: Você é praticamente um aluno de Hogwarts!
+                    ${score}% de acerto: Você é praticamente um aluno de Hogwarts!
                 </p>
             </div>
 
