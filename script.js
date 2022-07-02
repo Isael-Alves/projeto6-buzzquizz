@@ -1,4 +1,6 @@
 let QuestionsEmbaralhadas = [];
+let Questions, id, pergunt;
+let cont=1;
 
 function functionsIniciais() {
     IniciandoBuzzQuizz();
@@ -37,7 +39,7 @@ function EntrandoQuizz(quizz) {
     const Quizz = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${quizz.id}`);
     Quizz.then((resposta) => {
         const DadosQuizz = resposta.data;
-        let Questions = DadosQuizz.questions;
+        Questions = DadosQuizz.questions;
 
         document.querySelector(".titleQuizz").innerHTML += `
            <img src=${DadosQuizz.image} alt="">
@@ -69,7 +71,7 @@ function ColocadorOptionsRespostas(Respostas) {
     QuestionsEmbaralhadas.map((dados, i) => {
 
         OptionsRespostas += `
-          <li class="${dados.isCorrectAnswer}" key="${i}">
+          <li class="${dados.isCorrectAnswer}" key="${i}" onClick="cardSelecionado(this)">
               <img src="${dados.image}" alt="">
               <h5>${dados.text}</h5>
           </li>
@@ -87,6 +89,52 @@ function shuffleArray(arr) {
     QuestionsEmbaralhadas = arr;
     return QuestionsEmbaralhadas;
 }
+
+function cardSelecionado(elemento){
+    const pai = elemento.parentNode;
+if(pai.classList.contains('selecionado')!==true){
+    pai.classList.add('selecionado');
+optionAnswer(elemento);
+}else{
+return null;}
+}
+
+function optionAnswer(element){
+    const pai = element.parentNode;
+    let filhos = pai.querySelectorAll('img');
+for(let i = 0; i < filhos.length; i++) {
+    filhos[i].className += "esbranquicado";
+    let remove = element.querySelector("img");
+    remove.classList.remove('esbranquicado');
+}
+    let filhosTxt = pai.querySelectorAll('h5');
+    let filhosLi = pai.querySelectorAll('li');
+    
+    for(i = 0; i < filhosTxt.length; i++) {
+    if(filhosLi[i].classList.contains('true')){
+        filhosTxt[i].className += "verde";
+    } else{
+    filhosTxt[i].className += "vermelho";
+    }
+}
+proximaPag();
+}
+
+function proximaPag(){
+    pergunt = document.querySelectorAll('.questions'); 
+    if(cont<pergunt.length){
+    id = setInterval(scrollaParaProximaPergunta,2000);}
+    else{
+        return null;
+    }
+}
+
+function scrollaParaProximaPergunta(){
+       pergunt[cont].scrollIntoView();
+       clearInterval(id);
+    cont++;
+    } 
+
 
 function FinishingQuizz() {
     document.querySelector(".boxQuestions").innerHTML += `
@@ -120,7 +168,7 @@ functionsIniciais();
 
 
 // ===================================== Tela 3 ===============================================
-let checkUrlImage;
+let checkUrlImage, checkTitulo, checkQtdPergs, nivels;
 
 function IniciarCriacaoQuizz(){
     document.querySelector(".telaInicial").classList.add('hidden');
@@ -145,15 +193,15 @@ function IniciarCriacaoQuizz(){
 }
 
 function checkTitle() {
-    let checkTitle = false;
+    checkTitulo = false;
 
     const title = document.querySelector(".titulo").value;
     let tlt = title.length;
     if (tlt > 20 && tlt < 65) {
         titulos = true;
-        checkTitle = true;
+        checkTitulo = true;
     }
-    return checkTitle;
+    return checkTitulo;
 }
 
 function checkURL() {
@@ -183,7 +231,7 @@ function checkInicial() {
     checkQtdQuestions();
     checkQtdLevels();
 
-    if (checkTitle && checkUrlImage && checkQtdPergs && nivels) {
+    if (checkTitulo && checkUrlImage && checkQtdPergs && nivels) {
 
         document.querySelector(".informacoesBasicas").classList.add("hidden");
 

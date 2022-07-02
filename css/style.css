@@ -182,12 +182,19 @@ h2 {
 }
 
 .questions ul li h5 {
-    max-width: 340px;
+    max-width: 300px;
     font-weight: 500;
     font-size: 17px;
     line-height: 23px;
-
+    overflow-wrap: anywhere;
     margin: 7px 0 18px 0;
+}
+
+.verde{
+color: #009C22;
+}
+.vermelho{
+color: #FF4B4B;
 }
 
 .questions ul li img {
@@ -291,6 +298,9 @@ section .playerScore {
     margin-bottom: 15px;
 
     color: #818181;
+}
+.esbranquicado{
+    opacity: 0.3;
 }
 
 .hidden {
