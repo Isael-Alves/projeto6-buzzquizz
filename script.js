@@ -1,5 +1,5 @@
 let QuestionsEmbaralhadas = [];
-let Questions, id, id2, pergunt, correto;
+let Questions, id, id2, pergunt, correto, DadosQuizz;
 let soma = 0;
 let score = 0;
 let cont = 1;
@@ -40,9 +40,9 @@ function EntrandoQuizz(quizz) {
 
     const Quizz = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${quizz.id}`);
     Quizz.then((resposta) => {
-        const DadosQuizz = resposta.data;
+        DadosQuizz = resposta.data;
         Questions = DadosQuizz.questions;
-
+        console.log(DadosQuizz.levels);
         document.querySelector(".titleQuizz").innerHTML += `
            <img src=${DadosQuizz.image} alt="">
            <h2>${DadosQuizz.title}</h2>
@@ -127,6 +127,7 @@ function optionAnswer(element) {
 
 function proximaPag() {
     pergunt = document.querySelectorAll('.questions');
+   
     if (cont < pergunt.length) {
         id = setInterval(scrollaParaProximaPergunta, 2000);
     }
@@ -163,24 +164,27 @@ function calculatePerformance() {
 }
 
 function FinishingQuizz() {
+    let j = 0;
+    let level = DadosQuizz.levels;
+    console.log(level);
+    if(score>level[j].minValue){
+        for(let i=0; i<DadosQuizz.levels.length;i++){
     document.querySelector(".boxQuestions").innerHTML += `
         <article class="playerScore">
             <div class="text">
                 <p>
-                    ${score}% de acerto: Você é praticamente um aluno de Hogwarts!
+                    ${score}% de acerto: ${level[i].title}!
                 </p>
             </div>
 
             <ul>
                 <li>
                     <div>
-                        <img src="img/image 10.svg" alt="">
+                        <img src="${level[i].image}" alt="">
                     </div>
                 </li>
                 <li>
-                    <h6>Parabéns Potterhead! Bem-vindx a Hogwarts, aproveite o loop infinito de comida e clique no
-                        botão
-                        abaixo para usar o vira-tempo e reiniciar este teste.</h6>
+                    <h6>${level[i].text}</h6>
                 </li>
             </ul>
         </article>
@@ -188,6 +192,9 @@ function FinishingQuizz() {
             <div class="button">Reiniciar Quizz</div>
             <h6 class="backHome">Voltar pra home</h6>
         </div>`
+    }
+    }else {j++;
+    }
 }
 
 functionsIniciais();
