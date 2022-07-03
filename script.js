@@ -65,7 +65,7 @@ function EntrandoQuizz(quizz) {
     });
 }
 
-function inicioMostraResult(){
+function inicioMostraResult() {
     document.querySelector(".boxQuestions").innerHTML += `
     <article class="playerScore">`
 }
@@ -161,51 +161,43 @@ function confereResposta(element) {
     }
 }
 
-
 function calculatePerformance() {
     score = Math.round(((soma) / (pergunt.length)) * 100);
     console.log(score);
     FinishingQuizz(score);
 }
-let newarrey=[];
+let newarrey = [];
 
 function FinishingQuizz(score) {
     let i;
     let arrey = [];
-    
+
     let level = DadosQuizz.levels;
-    console.log(level);
-    if (score > level[j].minValue) {
-        for (let i = 0; i < DadosQuizz.levels.length; i++) {
-            document.querySelector(".boxQuestions").innerHTML += `
-        <article class="playerScore">
-=======
     for (let t = 0; t < level.length; t++) {
         level.map((dados, i) => {
             arrey.push(dados.minValue);
         });
     }
-   newarrey = [... new Set(arrey)];
+    newarrey = [... new Set(arrey)];
     newarrey.sort((a, b) => (a - b));
-console.log(newarrey);
+    console.log(newarrey);
     let tamanhoNivel = newarrey.length;
-   let nive=(tamanhoNivel-1);
+    let nive = (tamanhoNivel - 1);
 
-   for(let j=0; j<tamanhoNivel; j++){
-    
-    if (score >= newarrey[nive]) {
-        
-        let nivelcerto = newarrey[nive];
-        console.log(nivelcerto);
-        console.log(level[1]);
-        console.log(level.length);
-        for(let t=0; t<level.length;t++){
-           
-            console.log(level[t].minValue);
-        if(nivelcerto===level[t].minValue) {
+    for (let j = 0; j < tamanhoNivel; j++) {
+
+        if (score >= newarrey[nive]) {
+
+            let nivelcerto = newarrey[nive];
             console.log(nivelcerto);
-            document.querySelector(".playerScore").innerHTML += `
->>>>>>> fc612c30e1d869d76606f2932792a4782e566962
+            console.log(level[1]);
+            console.log(level.length);
+            for (let t = 0; t < level.length; t++) {
+
+                console.log(level[t].minValue);
+                if (nivelcerto === level[t].minValue) {
+                    console.log(nivelcerto);
+                    document.querySelector(".playerScore").innerHTML += `
             <div class="text">
                 <p>
                     ${score}% de acerto: ${level[t].title}!
@@ -227,36 +219,21 @@ console.log(newarrey);
             <div class="button">Reiniciar Quizz</div>
             <h6 class="backHome">Voltar pra home</h6>
         </div>`
-<<<<<<< HEAD
+                    break;
+                } else {
+                }
+            }
         }
-    } else {
-        j++;
     }
-=======
-        break;} else {
-           }
-       }
-       break;
-   }
-    else{
-    nive--;}
->>>>>>> fc612c30e1d869d76606f2932792a4782e566962
 }
-}
-    
-functionsIniciais();
 
-<<<<<<< HEAD
+functionsIniciais();
 
 // ===================================== Tela 3 (criação do quizz) =====================================================
 // ===================================== Tela Inicial (criação do quizz) ===============================================
 
-let checkUrlImage = true, checkTitulo = true, checkQtdPergs = true, checkNivels = true;
-let title = "wfdgrbcvertgityodbergfdcdhshfrjfvbgerr", linKUrl = "dhfdhrrg.jpg", qtdPerguntas = 4, qtdLevels = 4;
-=======
-// ===================================== Tela 3 ===============================================
->>>>>>> fc612c30e1d869d76606f2932792a4782e566962
-
+let checkUrlImage = false, checkTitulo = false, checkQtdPergs = false, checkNivels = false;
+let title = "", linKUrl = "", qtdPerguntas, qtdNiveis;
 
 function IniciarCriacaoQuizz() {
     document.querySelector(".telaInicial").classList.add('hidden');
@@ -301,37 +278,31 @@ function checkURL() {
 
 function checkQtdQuestions() {
     checkQtdPergs = false;
-    const qtdPerguntas = document.querySelector(".qtdPerguntas").value;
+    qtdPerguntas = document.querySelector(".qtdPerguntas").value;
     if (qtdPerguntas > 2) checkQtdPergs = true;
     return (checkQtdPergs, qtdPerguntas);
 }
 
 function checkQtdLevels() {
     checkNivels = false;
-    const qtdLevels = document.querySelector(".qtdNiveis").value;
-    if (qtdLevels > 1) checkNivels = true;
-    return checkNivels, qtdLevels;
+    const qtdNiveis = document.querySelector(".qtdNiveis").value;
+    if (qtdNiveis > 1) checkNivels = true;
+
+    return checkNivels, qtdNiveis;
 }
 
 function checkInicial() {
-<<<<<<< HEAD
-    // checkTitle();
-    // checkURL();
-    // checkQtdQuestions();
-    // checkQtdLevels();
-=======
     checkTitle();
     checkURL();
     checkQtdQuestions();
     checkQtdLevels();
->>>>>>> fc612c30e1d869d76606f2932792a4782e566962
 
     if (checkTitulo && checkUrlImage && checkQtdPergs && checkNivels) {
         InserirListaPerguntas();
     } else {
         alert('Por favor, preencha os dados corretamente!');
     }
-
+    console.log(qtdNiveis);
     checkUrlImage = false;
     checkTitulo = false;
     checkQtdPergs = false;
@@ -347,7 +318,7 @@ let ArrayRespostasCriadas = [];
 
 function InserirListaPerguntas() {
 
-    // document.querySelector(".informacoesBasicas").classList.add("hidden");
+    document.querySelector(".informacoesBasicas").classList.add("hidden");
 
     document.querySelector(".telaCriandoQuizz").innerHTML += `
         <section class="tela perguntas">
@@ -394,19 +365,11 @@ function InserirListaPerguntas() {
             </section>
         </section>`;
 
-<<<<<<< HEAD
-=======
-        checkUrlImage = false;
-        checkTitulo = false;
-        checkQtdPergs = false;
-        checkNivels = false;
->>>>>>> fc612c30e1d869d76606f2932792a4782e566962
-
 }
 
 function InserirOutrasPerguntas() {
     let Perguntas = "";
-
+    console.log(qtdPerguntas);
     for (let i = 1; i < qtdPerguntas; i++) {
         Perguntas +=
             `<div id=${i + 1} class="criadorDadosIniciais2">
@@ -423,16 +386,14 @@ function criarProximaPergunta(valor) {
     corFundoTelaQuestions();
     checkRespostasTelaPerguntas();
 
-<<<<<<< HEAD
+
     let Verificador = false;
     if (ArrayRespostasCriadas.length === ArrayUrls.length) {
         Verificador = true;
     }
-
+    console.log(checkPergunta, checkCor, checkUrlImageQuestions, checkRespostas, Verificador);
+    
     if (checkPergunta && checkCor && checkUrlImageQuestions && checkRespostas && Verificador) {
-=======
-    if (checkPergunta) {
->>>>>>> fc612c30e1d869d76606f2932792a4782e566962
         inserirInputs(valor);
     } else {
         alert("Tem algo de errado, verifique se os tudo está preenchido de forma correta.");
@@ -544,23 +505,22 @@ function corFundoTelaQuestions() {
 }
 
 function checkURLPerguntas() {
-<<<<<<< HEAD
     checkUrlImageQuestions = false;
     ArrayUrls = [];
     const linKUrlCorreto = document.querySelector(".linkUrlCorreto").value;
     const linksUrlErrados = document.querySelectorAll(".linkUrl");
 
     let verifidorUrl = false;
-    if (linKUrlCorreto.match(/\.(jpeg|jpg|gif|png)$/) !== null){
+    if (linKUrlCorreto.match(/\.(jpeg|jpg|gif|png)$/) !== null) {
         verifidorUrl = true;
     }
 
-    if(linksUrlErrados.length > 0 && verifidorUrl){
+    if (linksUrlErrados.length > 0 && verifidorUrl) {
         ArrayUrls.push(linKUrlCorreto);
 
         for (let i = 0; i < linksUrlErrados.length; i++) {
             let verificarURL = linksUrlErrados[i].value;
-    
+
             let urlcorreto = (verificarURL.match(/\.(jpeg|jpg|gif|png)$/) !== null);
             if (urlcorreto) {
                 ArrayUrls.push(linksUrlErrados[i].value);
@@ -586,19 +546,6 @@ function checkRespostasTelaPerguntas() {
     for (let i = 0; i < RespostasErradas.length; i++) {
         if (RespostasErradas[i].value !== "") {
             ArrayRespostasFalsas.push(RespostasErradas[i].value);
-=======
-    const linKUrl = document.querySelectorAll(".linkUrl");
-    let ArrayUrls = [];
-
-    for (let i = 0; i < linKUrl.length; i++) {
-        let verificarURL = linKUrl[i].value;
-
-        let urlcorreto = (verificarURL.match(/\.(jpeg|jpg|gif|png)$/) !== null);
-        if (urlcorreto || verificarURL === "") {
-            ArrayUrls.push(linKUrl[i].value);
-        } else {
-            return false;
->>>>>>> fc612c30e1d869d76606f2932792a4782e566962
         }
     }
 
@@ -610,9 +557,9 @@ function checkRespostasTelaPerguntas() {
         }
 
         checkRespostas = true;
-        return checkRespostas, ArrayRespostasCriadas
+        return checkRespostas, ArrayRespostasCriadas;
     }
-    return checkRespostas
+    return checkRespostas;
 }
 
 checkInicial();
