@@ -361,7 +361,7 @@ function InserirListaPerguntas() {
 
                 ${InserirOutrasPerguntas()}
                
-                <div class="prosseguirNiveis button" onclick="checkInicial()">Prosseguir pra criar níveis</div>
+                <div class="prosseguirNiveis button" onclick="">Prosseguir pra criar níveis</div>
             </section>
         </section>`;
 
@@ -392,7 +392,7 @@ function criarProximaPergunta(valor) {
         Verificador = true;
     }
     console.log(checkPergunta, checkCor, checkUrlImageQuestions, checkRespostas, Verificador);
-    
+
     if (checkPergunta && checkCor && checkUrlImageQuestions && checkRespostas && Verificador) {
         inserirInputs(valor);
     } else {
@@ -562,5 +562,4 @@ function checkRespostasTelaPerguntas() {
     return checkRespostas;
 }
 
-checkInicial();
 // ===================================== Tela de criação dos Níveis (criação do quizz) ===============================================
