@@ -171,33 +171,33 @@ let newarrey = [];
 function FinishingQuizz(score) {
     let i;
     let arrey = [];
-
+    
     let level = DadosQuizz.levels;
     for (let t = 0; t < level.length; t++) {
         level.map((dados, i) => {
             arrey.push(dados.minValue);
         });
     }
-    newarrey = [... new Set(arrey)];
+   newarrey = [... new Set(arrey)];
     newarrey.sort((a, b) => (a - b));
-    console.log(newarrey);
+console.log(newarrey);
     let tamanhoNivel = newarrey.length;
-    let nive = (tamanhoNivel - 1);
+   let nive=(tamanhoNivel-1);
 
-    for (let j = 0; j < tamanhoNivel; j++) {
-
-        if (score >= newarrey[nive]) {
-
-            let nivelcerto = newarrey[nive];
+   for(let j=0; j<tamanhoNivel; j++){
+    
+    if (score >= newarrey[nive]) {
+        
+        let nivelcerto = newarrey[nive];
+        console.log(nivelcerto);
+        console.log(level[1]);
+        console.log(level.length);
+        for(let t=0; t<level.length;t++){
+           
+            console.log(level[t].minValue);
+        if(nivelcerto===level[t].minValue) {
             console.log(nivelcerto);
-            console.log(level[1]);
-            console.log(level.length);
-            for (let t = 0; t < level.length; t++) {
-
-                console.log(level[t].minValue);
-                if (nivelcerto === level[t].minValue) {
-                    console.log(nivelcerto);
-                    document.querySelector(".playerScore").innerHTML += `
+            document.querySelector(".playerScore").innerHTML += `
             <div class="text">
                 <p>
                     ${score}% de acerto: ${level[t].title}!
@@ -219,12 +219,15 @@ function FinishingQuizz(score) {
             <div class="button">Reiniciar Quizz</div>
             <h6 class="backHome">Voltar pra home</h6>
         </div>`
-                    break;
-                } else {
-                }
-            }
-        }
-    }
+        break;} 
+        else {
+           }
+       }
+       break;
+   }
+    else{
+    nive--;}
+}
 }
 
 functionsIniciais();
@@ -528,11 +531,41 @@ function checkURLPerguntas() {
         }
     }
     
-    console.log(ArrayUrls);
-    checkUrlImage = true;
-    return checkUrlImage, ArrayUrls;
+    if (ArrayUrls.length > 1) {
+        checkUrlImageQuestions = true;
+        return checkUrlImageQuestions, ArrayUrls;
+    }
+    return checkUrlImageQuestions;
 }
 
+
+function checkRespostasTelaPerguntas() {
+    checkRespostas = false;
+    ArrayRespostasCriadas = [];
+    let ArrayRespostasFalsas = [];
+    let RespostaCorreta = document.querySelector(".textsRespostaCorreta").value;
+    let RespostasErradas = document.querySelectorAll(".textsRespostaIncorreta");
+
+    for (let i = 0; i < RespostasErradas.length; i++) {
+        if (RespostasErradas[i].value !== "") {
+            ArrayRespostasFalsas.push(RespostasErradas[i].value);
+        }
+    }
+
+    if (RespostaCorreta !== "" && ArrayRespostasFalsas.length > 0) {
+        ArrayRespostasCriadas.push(RespostaCorreta);
+
+        for (let j = 0; j < ArrayRespostasFalsas.length; j++) {
+            ArrayRespostasCriadas.push(ArrayRespostasFalsas[j]);
+        }
+
+        checkRespostas = true;
+        return checkRespostas, ArrayRespostasCriadas;
+    }
+    return checkRespostas;
+}
+
+// ===================================== Tela de criação dos Níveis (criação do quizz) ===============================================
 
 function telaCriandoNiveis (){
 document.querySelector('.telaCriandoQuizz').innerHTML+=`
