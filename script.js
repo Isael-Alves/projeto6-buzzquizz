@@ -65,7 +65,7 @@ function EntrandoQuizz(quizz) {
     });
 }
 
-function inicioMostraResult(){
+function inicioMostraResult() {
     document.querySelector(".boxQuestions").innerHTML += `
     <article class="playerScore">`
 }
@@ -161,44 +161,43 @@ function confereResposta(element) {
     }
 }
 
-
 function calculatePerformance() {
     score = Math.round(((soma) / (pergunt.length)) * 100);
     console.log(score);
     FinishingQuizz(score);
 }
-let newarrey=[];
+let newarrey = [];
 
 function FinishingQuizz(score) {
     let i;
     let arrey = [];
-    
+
     let level = DadosQuizz.levels;
     for (let t = 0; t < level.length; t++) {
         level.map((dados, i) => {
             arrey.push(dados.minValue);
         });
     }
-   newarrey = [... new Set(arrey)];
+    newarrey = [... new Set(arrey)];
     newarrey.sort((a, b) => (a - b));
-console.log(newarrey);
+    console.log(newarrey);
     let tamanhoNivel = newarrey.length;
-   let nive=(tamanhoNivel-1);
+    let nive = (tamanhoNivel - 1);
 
-   for(let j=0; j<tamanhoNivel; j++){
-    
-    if (score >= newarrey[nive]) {
-        
-        let nivelcerto = newarrey[nive];
-        console.log(nivelcerto);
-        console.log(level[1]);
-        console.log(level.length);
-        for(let t=0; t<level.length;t++){
-           
-            console.log(level[t].minValue);
-        if(nivelcerto===level[t].minValue) {
+    for (let j = 0; j < tamanhoNivel; j++) {
+
+        if (score >= newarrey[nive]) {
+
+            let nivelcerto = newarrey[nive];
             console.log(nivelcerto);
-            document.querySelector(".playerScore").innerHTML += `
+            console.log(level[1]);
+            console.log(level.length);
+            for (let t = 0; t < level.length; t++) {
+
+                console.log(level[t].minValue);
+                if (nivelcerto === level[t].minValue) {
+                    console.log(nivelcerto);
+                    document.querySelector(".playerScore").innerHTML += `
             <div class="text">
                 <p>
                     ${score}% de acerto: ${level[t].title}!
@@ -220,24 +219,20 @@ console.log(newarrey);
             <div class="button">Reiniciar Quizz</div>
             <h6 class="backHome">Voltar pra home</h6>
         </div>`
-        break;} else {
-           }
-       }
-       break;
-   }
-    else{
-    nive--;}
+                    break;
+                } else {
+                }
+            }
+        }
+    }
 }
-}
-    
+
 functionsIniciais();
 
-// ===================================== Tela 3 ===============================================
-
-let checkUrlImage, checkTitulo, checkQtdPergs, checkNivels;
-let title, linKUrl, qtdPerguntas, qtdLevels;
-let textoPergunta = [];
-let checkPergunta;
+// ===================================== Tela 3 (criação do quizz) =====================================================
+// ===================================== Tela Inicial (criação do quizz) ===============================================
+let checkUrlImage = false, checkTitulo = false, checkQtdPergs = false, checkNivels = false;
+let title = "", linKUrl = "", qtdPerguntas, qtdNiveis;
 let textoNvl =[];
 
 function IniciarCriacaoQuizz() {
@@ -283,17 +278,17 @@ function checkURL() {
 
 function checkQtdQuestions() {
     checkQtdPergs = false;
-    const qtdPerguntas = document.querySelector(".qtdPerguntas").value;
+    qtdPerguntas = document.querySelector(".qtdPerguntas").value;
     if (qtdPerguntas > 2) checkQtdPergs = true;
-    console.log(qtdPerguntas);
     return (checkQtdPergs, qtdPerguntas);
 }
-console.log(qtdPerguntas);
+
 function checkQtdLevels() {
     checkNivels = false;
-    const qtdLevels = document.querySelector(".qtdNiveis").value;
-    if (qtdLevels > 1) checkNivels = true;
-    return checkNivels, qtdLevels;
+    const qtdNiveis = document.querySelector(".qtdNiveis").value;
+    if (qtdNiveis > 1) checkNivels = true;
+
+    return checkNivels, qtdNiveis;
 }
 
 function checkInicial() {
@@ -303,75 +298,84 @@ function checkInicial() {
     checkQtdLevels();
 
     if (checkTitulo && checkUrlImage && checkQtdPergs && checkNivels) {
+        InserirListaPerguntas();
+    } else {
+        alert('Por favor, preencha os dados corretamente!');
+    }
+    console.log(qtdNiveis);
+    checkUrlImage = false;
+    checkTitulo = false;
+    checkQtdPergs = false;
+    checkNivels = false;
+}
 
-        document.querySelector(".informacoesBasicas").classList.add("hidden");
+// ===================================== Tela de criação das Perguntas (criação do quizz) ===============================================
+let checkCor = checkPergunta = checkUrlImageQuestions = checkRespostas = false;
+let codCor = "";
+let textoPergunta = "";
+let ArrayUrls = [];
+let ArrayRespostasCriadas = [];
 
-        document.querySelector(".telaCriandoQuizz").innerHTML += `
+function InserirListaPerguntas() {
+
+    document.querySelector(".informacoesBasicas").classList.add("hidden");
+
+    document.querySelector(".telaCriandoQuizz").innerHTML += `
         <section class="tela perguntas">
             <section class="criaQuizz">
 
                 <h1>Crie suas perguntas</h1>
 
-        <div id="1" class="criadorDadosIniciais2 aberto">
-            <div>
-                <h2>Pergunta 1</h2>
+                <div id="1" class="criadorDadosIniciais2 aberto">
+                    <div>
+                        <h2>Pergunta 1</h2>
 
-                <div class="inputs">
-                    <input type="text" class = "textsQuestions" placeholder="Texto da pergunta">
-                    <input type="text" class = "corFundoTelaQuestions" placeholder="Cor de fundo da pergunta">
+                        <div class="inputs">
+                            <input type="text" class = "textsQuestions" placeholder="Texto da pergunta">
+                            <input type="text" class = "corFundoTelaQuestions" placeholder="Cor de fundo da pergunta">
+                        </div>
+                    </div>
+                    <div class="corretaCriador">
+                        <h2>Resposta correta</h2>
+                        <div class="inputs">
+                            <input type="text" class="textsRespostaCorreta" placeholder="Resposta correta">
+                            <input type="text" class="linkUrlCorreto" placeholder="URL da imagem">
+                        </div>
+                    </div>
+                    <div class="incorretaCriador">
+                        <h2>Respostas incorretas</h2>
+                        <div>
+                            <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 1">
+                            <input type="text" class="linkUrl" placeholder="URL da imagem 1">
+                        </div>
+                        <div>
+                            <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 2">
+                            <input type="text" class="linkUrl" placeholder="URL da imagem 2">
+                        </div>
+                        <div>
+                            <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 3">
+                            <input type="text" class="linkUrl" placeholder="URL da imagem 3">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="corretaCriador">
-                <h2>Resposta correta</h2>
-                <div class="inputs">
-                    <input type="text" class="textsResposta" placeholder="Resposta correta">
-                    <input type="text" class="linkUrl" placeholder="URL da imagem">
-                </div>
-            </div>
-            <div class="incorretaCriador">
-                <h2>Respostas incorretas</h2>
-                <div>
-                    <input type="text" class="textsResposta" placeholder="Resposta incorreta 1">
-                    <input type="text" class="linkUrl" placeholder="URL da imagem 1">
-                </div>
-                <div>
-                    <input type="text" class="textsResposta" placeholder="Resposta incorreta 2">
-                    <input type="text" class="linkUrl" placeholder="URL da imagem 2">
-                </div>
-                <div>
-                    <input type="text" class="textsResposta" placeholder="Resposta incorreta 3">
-                    <input type="text" class="linkUrl" placeholder="URL da imagem 3">
-                </div>
-            </div>
-        </div>
 
-                ${InserirListaPerguntas()}
+                ${InserirOutrasPerguntas()}
                
                 <div class="prosseguirNiveis button" onclick="checkInicial()">Prosseguir pra criar níveis</div>
             </section>
-        </section>
-        `;
+        </section>`;
 
-        checkUrlImage = false;
-        checkTitulo = false;
-        checkQtdPergs = false;
-        checkNivels = false;
-
-    } else {
-        alert('Por favor, preencha os dados corretamente!');
-    }
 }
 
-function InserirListaPerguntas() {
+function InserirOutrasPerguntas() {
+    let Perguntas = "";
     console.log(qtdPerguntas);
-    let Perguntas;
-
     for (let i = 1; i < qtdPerguntas; i++) {
-        Perguntas += `
-          <div id=${i + 1} class="criadorDadosIniciais2">
+        Perguntas +=
+            `<div id=${i + 1} class="criadorDadosIniciais2">
               <h2>Pergunta ${i + 1}</h2>
               <ion-icon onclick="criarProximaPergunta(this)" name="create-outline"></ion-icon>
-          </div>`
+        </div>`
     }
     return Perguntas;
 }
@@ -379,12 +383,27 @@ function InserirListaPerguntas() {
 function criarProximaPergunta(valor) {
     checkPerguntaTelaQuestion();
     checkURLPerguntas();
+    corFundoTelaQuestions();
+    checkRespostasTelaPerguntas();
 
-    if (checkPergunta) {
+
+    let Verificador = false;
+    if (ArrayRespostasCriadas.length === ArrayUrls.length) {
+        Verificador = true;
+    }
+    console.log(checkPergunta, checkCor, checkUrlImageQuestions, checkRespostas, Verificador);
+    
+    if (checkPergunta && checkCor && checkUrlImageQuestions && checkRespostas && Verificador) {
         inserirInputs(valor);
     } else {
         alert("Tem algo de errado, verifique se os tudo está preenchido de forma correta.");
     }
+
+    checkCor = checkPergunta = checkUrlImageQuestions = checkRespostas = false;
+    codCor = "";
+    textoPergunta = "";
+    ArrayUrls = [];
+    ArrayRespostasCriadas = [];
 }
 
 function inserirInputs(valor) {
@@ -431,27 +450,25 @@ function inserirInputs(valor) {
             </div>`;
 }
 
-
 function checkPerguntaTelaQuestion() {
     checkPergunta = false;
 
     Pergunta = document.querySelector(".textsQuestions").value;
-    console.log(Pergunta.length);
     let tlt = Pergunta.length;
     if (tlt > 19) {
         checkPergunta = true;
-        textoPergunta.push(Pergunta);
+        textoPergunta = Pergunta;
     }
     return checkPergunta, textoPergunta;
 }
 
 function corFundoTelaQuestions() {
-    let checkCor = false;
+    checkCor = false;
     const ArrayCor = [];
-    let Hex = [];
+    let HexCor = [];
 
     const cor = document.querySelector(".corFundoTelaQuestions").value;
-    const alfabetoENumeros = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
+    const alfabetoENumeros = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
 
     if (cor[0] === "#" && cor.length === 7) {
 
@@ -459,31 +476,58 @@ function corFundoTelaQuestions() {
             ArrayCor.push(cor[i]);
         }
 
-        console.log(ArrayCor);
+        for (let i = 0; i < ArrayCor.length; i++) {
+            let a = ArrayCor[i];
 
-        ArrayCor.filter((element) => {
-            if (alfabetoENumeros.indexOf(element) === -1) {
-                // Hex.push(element);
-                console.log("não tem");
+            for (let j = 0; j < alfabetoENumeros.length; j++) {
+                let b = alfabetoENumeros[j];
+
+                if (a === b) {
+                    HexCor.push(a);
+                }
             }
-        });
+        }
+
+        let contador = 0;
+        for (let k = 0; k < 6; k++) {
+            if (ArrayCor[k] === HexCor[k]) {
+                contador += 1;
+            }
+        }
+
+        if (contador === 6) {
+            checkCor = true;
+            codCor = cor;
+            return checkCor, codCor;
+        }
     }
+    return checkCor;
 }
 
 function checkURLPerguntas() {
-    const linKUrl = document.querySelectorAll(".linkUrl");
-    let ArrayUrls = [];
+    checkUrlImageQuestions = false;
+    ArrayUrls = [];
+    const linKUrlCorreto = document.querySelector(".linkUrlCorreto").value;
+    const linksUrlErrados = document.querySelectorAll(".linkUrl");
 
-    for (let i = 0; i < linKUrl.length; i++) {
-        let verificarURL = linKUrl[i].value;
+    let verifidorUrl = false;
+    if (linKUrlCorreto.match(/\.(jpeg|jpg|gif|png)$/) !== null) {
+        verifidorUrl = true;
+    }
 
-        let urlcorreto = (verificarURL.match(/\.(jpeg|jpg|gif|png)$/) !== null);
-        if (urlcorreto || verificarURL === "") {
-            ArrayUrls.push(linKUrl[i].value);
-        } else {
-            return false;
+    if (linksUrlErrados.length > 0 && verifidorUrl) {
+        ArrayUrls.push(linKUrlCorreto);
+
+        for (let i = 0; i < linksUrlErrados.length; i++) {
+            let verificarURL = linksUrlErrados[i].value;
+
+            let urlcorreto = (verificarURL.match(/\.(jpeg|jpg|gif|png)$/) !== null);
+            if (urlcorreto) {
+                ArrayUrls.push(linksUrlErrados[i].value);
+            }
         }
     }
+    
     console.log(ArrayUrls);
     checkUrlImage = true;
     return checkUrlImage, ArrayUrls;
