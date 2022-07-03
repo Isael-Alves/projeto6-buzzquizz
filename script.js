@@ -1,5 +1,6 @@
 let QuestionsEmbaralhadas = [];
 let Questions, id, id2, pergunt, correto, DadosQuizz;
+let newarrey = [];
 let soma = 0;
 let score = 0;
 let cont = 1;
@@ -166,7 +167,6 @@ function calculatePerformance() {
     console.log(score);
     FinishingQuizz(score);
 }
-let newarrey = [];
 
 function FinishingQuizz(score) {
     let i;
@@ -220,20 +220,23 @@ function FinishingQuizz(score) {
             <h6 class="backHome">Voltar pra home</h6>
         </div>`
                     break;
-                } else {
+                }
+                else {
                 }
             }
+            break;
+        }
+        else {
+            nive--;
         }
     }
 }
 
-functionsIniciais();
-
 // ===================================== Tela 3 (criação do quizz) =====================================================
 // ===================================== Tela Inicial (criação do quizz) ===============================================
-
 let checkUrlImage = false, checkTitulo = false, checkQtdPergs = false, checkNivels = false;
 let title = "", linKUrl = "", qtdPerguntas, qtdNiveis;
+let textoNvl = [];
 
 function IniciarCriacaoQuizz() {
     document.querySelector(".telaInicial").classList.add('hidden');
@@ -533,7 +536,6 @@ function checkURLPerguntas() {
         return checkUrlImageQuestions, ArrayUrls;
     }
     return checkUrlImageQuestions;
-
 }
 
 function checkRespostasTelaPerguntas() {
@@ -562,4 +564,95 @@ function checkRespostasTelaPerguntas() {
     return checkRespostas;
 }
 
+functionsIniciais();
 // ===================================== Tela de criação dos Níveis (criação do quizz) ===============================================
+
+function telaCriandoNiveis() {
+    document.querySelector('.telaCriandoQuizz').innerHTML += `
+    
+    <section class="tela niveis hidden">
+                <section class="criaQuizz">
+                    <div class="criaQuizzTitulo">
+                        <h1>Agora, decida os níveis</h1>
+                    </div>
+                    <div id="1" class="criadorDadosIniciais2 aberto">
+                            <h2>Nível 1</h2>
+                        <div class="inputs">
+                            <input type="text" placeholder="Título do nível">
+                            <input type="text" placeholder="% de acerto mínima">
+                            <input type="text" placeholder="URL da imagem do nível">
+                            <input type="text" placeholder="Descrição do nível">
+                        </div>
+                    </div>
+                    ${InserirListaNiveis()}
+                    <div class="prosseguirFinalizar button">Finalizar Quizz</div>
+                </section>
+            </section>`
+
+}
+
+function InserirListaNiveis() {
+    console.log(qtdLevels);
+    let leveis;
+
+    for (let i = 1; i < qtdLevels; i++) {
+        leveis += `
+              <div id=${i + 1} class="criadorDadosIniciais2">
+                  <h2>Nível ${i + 1}</h2>
+                  <ion-icon onclick="criarProximoNivel(this)" name="create-outline"></ion-icon>
+               </div>`
+    }
+    return leveis;
+}
+
+function criarProximoNivel(valor) {
+    checkTituloNivel();
+    checkPorcentagemMinima();//tem que ter um 0
+    checkUrlNivel();
+    checkDescricaoMin();
+
+
+    if (checkPergunta) {
+        inserirInputsNivel(valor);
+    } else {
+        alert("Tem algo de errado, verifique se os tudo está preenchido de forma correta.");
+    }
+}
+
+function inserirInputsNivel(valor) {
+    let niv = valor.parentNode;
+
+    let verificarNivelAberto = document.querySelector(".aberto");
+
+    if (verificarNivelAberto !== null) {
+        verificarNivelAberto.classList.remove("aberto");
+        verificarNivelAberto.innerHTML = `<h2>Nível ${verificarNivelAberto.id}</h2>`;
+    }
+
+    niv.classList.add("aberto");
+
+    niv.innerHTML = `
+            <div>
+                <h2>Nível ${niv.id}</h2>
+                <div class="inputs">
+                <input type="text" class="textNivel" placeholder="Título do nível">
+                <input type="text" class="textPorcentMin" placeholder="% de acerto mínima">
+                <input type="text" class="textPorcentMin" placeholder="URL da imagem do nível">
+                <input type="text" placeholder="Descrição do nível">
+            </div>
+        </div>
+        `
+}
+
+function checkTituloNivel() {
+    checkNiv = false;
+    nive = document.querySelector(".textNivel").value;
+    let nvl = nive.length;
+
+    if (nvl > 10) {
+        checkNiv = true;
+        textoNvl.push(nive);
+    }
+
+    return checkNiv, textoNvl;
+}
