@@ -14,7 +14,8 @@ function tratSucesso(dados) {
     })
 
     let telaFinalCria = document.querySelector('.telaCriandoQuizz');
-    telaFinalCria.innerHTML += `
+    telaFinalCria.innerHTML = `
+    <section class="tela sucesso hidden">
         <div>
             <h2>Seu quizz está pronto!</h2>
             <div class="quizz">
@@ -23,8 +24,7 @@ function tratSucesso(dados) {
             </div>
             <div class="button" onClick="EntrandoQuizz((QuizzesId[tamanahoID])+1)">Acessar Quizz</div>
             <h6 class="backHome" onClick="telaInicialAposCriarQuizz()">Voltar pra home</h6>
-        </div>
-`
+        </div>`
 }
 
 function telaInicialAposCriarQuizz() {

@@ -156,6 +156,10 @@ h2 {
     bottom: 15px;
     color: #FFFFFF;
 }
+.quizzes img{
+    width: 500px;
+    height: 265px;
+}
 
 .questions,
 .playerScore {
