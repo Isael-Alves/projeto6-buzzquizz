@@ -180,40 +180,35 @@ function FinishingQuizz(score) {
     }
     newarrey = [... new Set(arrey)];
     newarrey.sort((a, b) => (a - b));
-    console.log(newarrey);
+
     let tamanhoNivel = newarrey.length;
     let nive = (tamanhoNivel - 1);
 
     for (let j = 0; j < tamanhoNivel; j++) {
 
         if (score >= newarrey[nive]) {
-
             let nivelcerto = newarrey[nive];
-            console.log(nivelcerto);
-            console.log(level[1]);
-            console.log(level.length);
+            
             for (let t = 0; t < level.length; t++) {
-
-                console.log(level[t].minValue);
                 if (nivelcerto === level[t].minValue) {
-                    console.log(nivelcerto);
+                    
                     textResultado = document.querySelector(".playerScore").innerHTML += `
-            <div class="text">
-                <p>
-                    ${score}% de acerto: ${level[t].title}!
-                </p>
-            </div>
+                <div class="text">
+                    <p>
+                      ${score}% de acerto: ${level[t].title}!
+                    </p>
+                </div>
 
-            <ul>
-                <li>
-                    <div>
-                        <img src="${level[t].image}" alt="">
-                    </div>
-                </li>
-                <li>
-                    <h6>${level[t].text}</h6>
-                </li>
-            </ul>
+                <ul>
+                    <li>
+                        <div>
+                           <img src="${level[t].image}" alt="">
+                        </div>
+                    </li>
+                    <li>
+                        <h6>${level[t].text}</h6>
+                    </li>
+                </ul>
         </article>
         <div class="finishQuizz">
             <div class="button" onClick="reiniciarQuizz()">Reiniciar Quizz</div>
@@ -302,7 +297,7 @@ function checkTitle() {
 }
 
 function checkURL() {
-    let linKUrl = document.querySelector(".linkUrl").value;
+    linKUrl = document.querySelector(".linkUrl").value;
     let urlcorreto = (linKUrl.match(/\.(jpeg|jpg|gif|png)$/) !== null);
     checkUrlImage = urlcorreto;
     return checkUrlImage, linKUrl;
@@ -312,14 +307,13 @@ function checkQtdQuestions() {
     checkQtdPergs = false;
     qtdPerguntas = parseInt(document.querySelector(".qtdPerguntas").value);
     if (qtdPerguntas > 2) checkQtdPergs = true;
-    return (checkQtdPergs, qtdPerguntas);
+    return checkQtdPergs, qtdPerguntas;
 }
 
 function checkQtdLevels() {
     checkNivels = false;
     qtdNiveis = parseInt(document.querySelector(".qtdNiveis").value);
     if (qtdNiveis > 1) checkNivels = true;
-    console.log(qtdNiveis);
     return checkNivels, qtdNiveis;
 }
 
@@ -332,6 +326,10 @@ function checkInicial() {
     if (checkTitulo && checkUrlImage && checkQtdPergs && checkNivels) {
         InserirListaPerguntas();
     } else {
+        title = "";
+        linKUrl = "";
+        qtdPerguntas = 0;
+        qtdNiveis = 0;
         alert('Por favor, preencha os dados corretamente!');
     }
 
@@ -347,6 +345,7 @@ let codCor = "";
 let textoPergunta = "";
 let ArrayUrls = [];
 let ArrayRespostasCriadas = [];
+let QuestoesCriadas = [];
 
 function InserirListaPerguntas() {
 
@@ -418,26 +417,54 @@ function criarProximaPergunta(valor) {
     corFundoTelaQuestions();
     checkRespostasTelaPerguntas();
 
-
     let Verificador = false;
     if (ArrayRespostasCriadas.length === ArrayUrls.length) {
         Verificador = true;
     }
-    console.log(checkPergunta, checkCor, checkUrlImageQuestions, checkRespostas, Verificador);
 
     if (checkPergunta && checkCor && checkUrlImageQuestions && checkRespostas && Verificador) {
+        CriacaoDasQuestionsOBJETO();
         inserirInputs(valor);
     } else {
-        ArrayUrls.pop;
-        ArrayRespostasCriadas.pop;
-        alert("Tem algo de errado, verifique se os tudo está preenchido de forma correta.");
+
+        ArrayRespostasCriadas = [];
+        ArrayUrls = [];
+        textoPergunta = "";
+        codCor = "";
+        return alert("Tem algo de errado, verifique se tudo está preenchido de forma correta.")
+    }
+    ArrayRespostasCriadas = [];
+    ArrayUrls = [];
+    textoPergunta = "";
+    codCor = "";
+}
+
+function CriacaoDasQuestionsOBJETO() {
+
+    let ArrayAnswersCriadas = [];
+    let AnswerCriada = {};
+    let PerguntaCriada = {};
+    for (let i = 0; i < ArrayRespostasCriadas.length; i++) {
+
+        let CorrectAnswer = false;
+        if (i === 0) {
+            CorrectAnswer = true;
+        }
+
+        AnswerCriada = {
+            text: ArrayRespostasCriadas[i],
+            image: ArrayUrls[i],
+            isCorrectAnswer: CorrectAnswer
+        }
+        ArrayAnswersCriadas.push(AnswerCriada);
     }
 
-    checkCor = false, checkPergunta = false, checkUrlImageQuestions = false, checkRespostas = false;
-    codCor = "";
-    textoPergunta = "";
-    ArrayUrls = [];
-    ArrayRespostasCriadas = [];
+    PerguntaCriada = {
+        title: textoPergunta,
+        color: codCor,
+        answers: ArrayAnswersCriadas
+    }
+    QuestoesCriadas.push(PerguntaCriada);
 }
 
 function inserirInputs(valor) {
@@ -466,22 +493,23 @@ function inserirInputs(valor) {
                     <input type="text" class="textsRespostaCorreta" placeholder="Resposta correta">
                     <input type="text" class="linkUrlCorreto" placeholder="URL da imagem">
                 </div>
-                <div class="incorretaCriador">
+            </div>    
+            <div class="incorretaCriador">
+                <div>    
                     <h2>Respostas incorretas</h2>
-                </div>   
-                <div>
                     <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 1">
                     <input type="text" class="linkUrl" placeholder="URL da imagem 1">
                 </div>
-            </div>
-            <div>
-                <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 2">
-                <input type="text" class="linkUrl" placeholder="URL da imagem 2">
-            </div>
-            <div>
-                <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 3">
-                <input type="text" class="linkUrl" placeholder="URL da imagem 3">
-            </div>
+               
+                <div>
+                    <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 2">
+                    <input type="text" class="linkUrl" placeholder="URL da imagem 2">
+                </div>
+                <div>
+                    <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 3">
+                    <input type="text" class="linkUrl" placeholder="URL da imagem 3">
+                </div>
+            </div>  
         `;
 }
 
@@ -499,11 +527,11 @@ function checkPerguntaTelaQuestion() {
 
 function corFundoTelaQuestions() {
     checkCor = false;
-    const ArrayCor = [];
+    let ArrayCor = [];
     let HexCor = [];
 
     const cor = document.querySelector(".corFundoTelaQuestions").value;
-    const alfabetoENumeros = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
+    const alfabetoENumeros = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "A", "B", "C", "D", "E", "F"];
 
     if (cor[0] === "#" && cor.length === 7) {
 
@@ -541,7 +569,6 @@ function corFundoTelaQuestions() {
 
 function checkURLPerguntas() {
     checkUrlImageQuestions = false;
-    ArrayUrls = [];
     let linKUrlCorreto = document.querySelector(".linkUrlCorreto").value;
     let linksUrlErrados = document.querySelectorAll(".linkUrl");
 
@@ -572,7 +599,6 @@ function checkURLPerguntas() {
 
 function checkRespostasTelaPerguntas() {
     checkRespostas = false;
-    ArrayRespostasCriadas = [];
     let ArrayRespostasFalsas = [];
     let RespostaCorreta = document.querySelector(".textsRespostaCorreta").value;
     let RespostasErradas = document.querySelectorAll(".textsRespostaIncorreta");
@@ -597,38 +623,65 @@ function checkRespostasTelaPerguntas() {
 }
 
 // ===================================== Tela de criação dos Níveis (criação do quizz) ===============================================
-let ArraytextoNvl = [], ArrayPorcent = [], ArrayUrlNiveis = [], ArrayDescNiveis = [];
+let textoNvl = "", Porcent = "", UrlNiveis = "", DescNiveis = "";
 let checkNivTelaNivel = false, checkPorcentNiveis = false, checkUrlNiveis = false, checkDescNiveis = false;
+let LevelsCriados = [];
 
 function telaCriandoNiveis() {
-    document.querySelector('.telaCriandoQuizz').innerHTML += `
+    checkPerguntaTelaQuestion();
+    checkURLPerguntas();
+    corFundoTelaQuestions();
+    checkRespostasTelaPerguntas();
 
-<section class="tela niveis hidden">
+    let Verificador = false;
+    if (ArrayRespostasCriadas.length === ArrayUrls.length) {
+        Verificador = true;
+    }
+
+    if (checkPergunta && checkCor && checkUrlImageQuestions && checkRespostas && Verificador) {
+        CriacaoDasQuestionsOBJETO();
+
+        document.querySelector('.telaCriandoQuizz').innerHTML = `
+
+        <section class="tela niveis">
             <section class="criaQuizz">
                 <div class="criaQuizzTitulo">
                     <h1>Agora, decida os níveis</h1>
                 </div>
-                <div id="1" class="criadorDadosIniciais2 aberto">
+                <div id="1" class="criadorDadosIniciais2 aberto2">
                         <h2>Nível 1</h2>
                     <div class="inputs">
-                        <input type="text" placeholder="Título do nível">
-                        <input type="text" placeholder="% de acerto mínima">
-                        <input type="text" placeholder="URL da imagem do nível">
-                        <input type="text" placeholder="Descrição do nível">
+                        <input type="text"   class = "textNivel"           placeholder="Título do nível">
+                        <input type="number" class = "textPorcentMin"      placeholder="% de acerto mínima">
+                        <input type="text"   class = "textUrlImg"          placeholder="URL da imagem do nível">
+                        <input type="text"   class = "textoDescricaoNivel" placeholder="Descrição do nível">
                     </div>
                 </div>
                 ${InserirListaNiveis()}
-                <div class="prosseguirFinalizar button">Finalizar Quizz</div>
+                <div class="prosseguirFinalizar button" onclick="VerificarNiveis()">Finalizar Quizz</div>
             </section>
         </section>`
 
+    } else {
+
+        ArrayRespostasCriadas = [];
+        ArrayUrls = [];
+        textoPergunta = "";
+        codCor = "";
+        return alert("Tem algo de errado, verifique se tudo está preenchido de forma correta.");
+    }
+
+    ArrayRespostasCriadas = [];
+    ArrayUrls = [];
+    textoPergunta = "";
+    codCor = "";
 }
 
 function InserirListaNiveis() {
     let levels;
 
-    for (let i = 1; i < qtdLevels; i++) {
-        leveis += `
+    for (let i = 1; i < qtdNiveis; i++) {
+        levels += `
           <div id=${i + 1} class="criadorDadosIniciais2">
               <h2>Nível ${i + 1}</h2>
               <ion-icon onclick="criarProximoNivel(this)" name="create-outline"></ion-icon>
@@ -644,9 +697,9 @@ function criarProximoNivel(valor) {
     checkDescricoesNiveis();
 
     if (checkNivTelaNivel && checkPorcent && checkUrlNiveis && checkDescNiveis) {
+        CriacaoDosNiveisOBJETO();
 
         let niv = valor.parentNode;
-
         let verNivelAberto = document.querySelector(".aberto2");
 
         if (verNivelAberto !== null) {
@@ -667,12 +720,27 @@ function criarProximoNivel(valor) {
         </div>`
 
     } else {
-        ArraytextoNvl.pop();
-        ArrayPorcent.pop();
-        ArrayUrlNiveis.pop();
-        ArrayDescNiveis.pop();
+        textoNvl = "";
+        Porcent = "";
+        UrlNiveis = "";
+        DescNiveis = "";
         alert("Tem algo de errado, verifique se os tudo está preenchido de forma correta.");
     }
+    textoNvl = "";
+    Porcent = "";
+    UrlNiveis = "";
+    DescNiveis = "";
+}
+
+function CriacaoDosNiveisOBJETO() {
+
+    NivelCriado = {
+        title: textoNvl,
+        image: UrlNiveis,
+        text: DescNiveis,
+        minValue: Porcent
+    },
+        LevelsCriados.push(NivelCriado);
 }
 
 function inserirInputsNivel(valor) {
@@ -707,7 +775,7 @@ function checkTituloNivel() {
 
     if (nvl > 10) {
         checkNivTelaNivel = true;
-        ArraytextoNvl.push(nive);
+        textoNvl = nive;
     }
     return checkNivTelaNivel;
 }
@@ -719,7 +787,7 @@ function ckeckPorctTelaNiv() {
 
     if (porcent >= 0 && porcent <= 100) {
         checkPorcent = true;
-        ArrayPorcent.push(porcent);
+        Porcent = porcent;
     }
 
     return checkPorcent;
@@ -731,7 +799,7 @@ function CheckUrlTelaNiveis() {
     const urlcorreto = (UrlNivel.match(/\.(jpeg|jpg|gif|png)$/) !== null);
     if (urlcorreto) {
         checkUrlNiveis = urlcorreto;
-        ArrayUrlNiveis.push(UrlNivel);
+        UrlNiveis = UrlNivel;
     }
 
     return checkUrlNiveis;
@@ -744,40 +812,61 @@ function checkDescricoesNiveis() {
 
     if (Length > 30) {
         checkDescNiveis = true;
-        ArrayDescNiveis.push(Des);
+        DescNiveis = Des;
     }
     return checkDescNiveis;
 }
 
+function CriacaoFinalDoObjetoQuizz() {
+    QuizzFinal = {
+        title: title,
+        image: linKUrl,
+        questions: QuestoesCriadas,
+        levels: LevelsCriados
+    };
+    console.log(QuizzFinal);
+}
+
 function VerificarNiveis() {
-    let zero = 0;
     checkTituloNivel();
     ckeckPorctTelaNiv();
     CheckUrlTelaNiveis();
     checkDescricoesNiveis();
+    //alterar valor para zero depois dos testes
+    let ContZeroPorcent = 0;
 
-    for (let i = 0; i < ArrayPorcent.length; i++) {
-
-        if (ArrayPorcent[i] == 0) {
-            console.log(ArrayPorcent[i]);
-            zero++;
+    for (let i = 0; i < LevelsCriados.length; i++) {
+        if(LevelsCriados[i].minValue === 0){
+            ContZeroPorcent++;
         }
     }
+    if(Porcent === 0){
+        ContZeroPorcent++;
+    }
 
-    if (zero > 0 && checkNivTelaNivel && checkPorcent && checkUrlNiveis && checkDescNiveis) {
+    if (ContZeroPorcent > 0 && checkNivTelaNivel && checkPorcent && checkUrlNiveis && checkDescNiveis) {
+        CriacaoDosNiveisOBJETO();
 
         document.querySelector(".niveis").classList.add("hidden");
-        //colocar função que inicia sucesso
+        CriacaoFinalDoObjetoQuizz();
+        AbrirTeladeSucessos();
 
     } else {
-        ArraytextoNvl.pop();
-        ArrayPorcent.pop();
-        ArrayUrlNiveis.pop();
-        ArrayDescNiveis.pop();
+        textoNvl = "";
+        Porcent = "";
+        UrlNiveis = "";
+        DescNiveis = "";
         alert(`Tem algo de errado, verifique se tudo está preenchido de forma correta.
         Verifique se existe pelo menos um nível com 0 de porcentagem mínima.`);
     }
+    textoNvl = "";
+    Porcent = "";
+    UrlNiveis = "";
+    DescNiveis = "";
 }
 
 functionsIniciais();
 // ===================================== Tela de Sucesso (criação do quizz) =========================================
+function AbrirTeladeSucessos(){
+    alert("estou funcionando", QuizzFinal);
+}

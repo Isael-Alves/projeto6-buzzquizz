@@ -1,4 +1,3 @@
-let objeto = [];
 function sendQuizzCriado() {
     let send = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes0', objeto);
     send.then(tratSucesso);
