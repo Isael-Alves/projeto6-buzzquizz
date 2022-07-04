@@ -12,22 +12,28 @@ function functionsIniciais() {
 }
 
 function IniciandoBuzzQuizz() {
-    if (arrayDeMeusQuizzes === []){
+    const listaSerializada = localStorage.getItem("lista");
+    console.log(listaSerializada);
+    let lista = JSON.parse(listaSerializada);
+    arrayDeMeusQuizzes.push(lista);
+    
+    if (arrayDeMeusQuizzes === null){
         document.querySelector(".criarQuizzes").innerHTML += `  
         <h4>Você não criou nenhum quizz ainda :(</h4>
         <div class="buttonCriarQuizz" onclick="IniciarCriacaoQuizz()">Criar Quizz</div> `
     }else {
-        document.querySelector(".telaInicial").innerHTML += `
-        
-        <section class="criarQuizzesComMeusQuizzes">
+       console.log(arrayDeMeusQuizzes[0].id);
+       document.querySelector(".criarQuizzes").innerHTML += `
+       <section class="criarQuizzesComMeusQuizzes">
             <div>
                 <h2>Seus Quizzes</h2>
-                <ion-icon name="add-circle"/>
+                <ion-icon onclick="IniciarCriacaoQuizz()" name="add-circle"/>
             </div>
                 <ul>
                 ${MeuQuizz()}
                 </ul>
-        </section>`
+        </section>
+        `
     }  
 }
 
@@ -903,20 +909,22 @@ function VerificarNiveis() {
 
 functionsIniciais();
 // ===================================== Tela de Sucesso (criação do quizz) =========================================
+let respostaLancamento;
 function AbrirTeladeSucessos(){
     alert("estou funcionando", QuizzFinal);
     let send = axios.post('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes', QuizzFinal);
     send.then(tratSucesso);
 }
+let quizzRespostaID;
 
 function tratSucesso(dados) {
     document.querySelector('.niveis').classList.add('hidden');
     let telaFinalCria = document.querySelector('.telaCriandoQuizz').innerHTML = `
     <section class="tela sucesso hidden"> </section>`;
     document.querySelector('.sucesso').classList.remove('hidden');
-    let respostaLancamento = dados.data;
+    respostaLancamento = dados.data;
     console.log(dados.data);
-    let quizzRespostaID = respostaLancamento.id;
+    quizzRespostaID = respostaLancamento.id;
     console.log(quizzRespostaID);
     let telaFinalCria2 = document.querySelector('.sucesso');
     telaFinalCria2.innerHTML= `
