@@ -461,21 +461,18 @@ function inserirInputs(valor) {
                 </div>
             </div>
             <div class="corretaCriador">
-            <h2>Resposta correta</h2>
-            <div class="inputs">
-                <input type="text" class="textsRespostaCorreta" placeholder="Resposta correta">
-                <input type="text" class="linkUrlCorreto" placeholder="URL da imagem">
-<<<<<<< HEAD
-=======
-            </div>
->>>>>>> b7baddf5d5dc01ee2bdf54519f67f7fdddead31d
-            </div>
-        </div>
-        <div class="incorretaCriador">
-            <h2>Respostas incorretas</h2>
-            <div>
-                <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 1">
-                <input type="text" class="linkUrl" placeholder="URL da imagem 1">
+                <h2>Resposta correta</h2>
+                <div class="inputs">
+                    <input type="text" class="textsRespostaCorreta" placeholder="Resposta correta">
+                    <input type="text" class="linkUrlCorreto" placeholder="URL da imagem">
+                </div>
+                <div class="incorretaCriador">
+                    <h2>Respostas incorretas</h2>
+                </div>   
+                <div>
+                    <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 1">
+                    <input type="text" class="linkUrl" placeholder="URL da imagem 1">
+                </div>
             </div>
             <div>
                 <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 2">
@@ -485,8 +482,7 @@ function inserirInputs(valor) {
                 <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 3">
                 <input type="text" class="linkUrl" placeholder="URL da imagem 3">
             </div>
-        </div>
-        </div>`;
+        `;
     }
 
 function checkPerguntaTelaQuestion() {
@@ -605,7 +601,6 @@ let ArraytextoNvl = [], ArrayPorcent = [], ArrayUrlNiveis = [], ArrayDescNiveis 
 let checkNivTelaNivel = false, checkPorcentNiveis = false, checkUrlNiveis = false, checkDescNiveis = false;
 
 function telaCriandoNiveis() {
-<<<<<<< HEAD
     document.querySelector('.telaCriandoQuizz').innerHTML += `
 
 <section class="tela niveis hidden">
@@ -626,53 +621,18 @@ function telaCriandoNiveis() {
                 <div class="prosseguirFinalizar button">Finalizar Quizz</div>
             </section>
         </section>`
-=======
-
-    document.querySelector(".perguntas").classList.add("hidden");
-
-    document.querySelector('.telaCriandoQuizz').innerHTML += ` 
-    <section class="tela niveis">
-        <section class="criaQuizz">
-            <div class="criaQuizzTitulo">
-                <h1>Agora, decida os níveis</h1>
-            </div>
-            <div id="1" class="criadorDadosIniciais2 aberto2">
-                <h2>Nível 1</h2>
-                <div class="inputs">
-                    <input type="text" class = "textNivel"           placeholder="Título do nível">
-                    <input type="number" class = "textPorcentMin"      placeholder="% de acerto mínima">
-                    <input type="text" class = "textUrlImg"          placeholder="URL da imagem do nível">
-                    <input type="text" class = "textoDescricaoNivel" placeholder="Descrição do nível">
-                </div>
-            </div>
-
-               ${InserirListaNiveis()}
-
-            <div class="prosseguirFinalizar button" onclick="VerificarNiveis()">Finalizar Quizz</div>
-        </section>
-    </section>`
->>>>>>> b7baddf5d5dc01ee2bdf54519f67f7fdddead31d
 
 }
 
 function InserirListaNiveis() {
     let levels;
 
-<<<<<<< HEAD
     for (let i = 1; i < qtdLevels; i++) {
         leveis += `
           <div id=${i + 1} class="criadorDadosIniciais2">
               <h2>Nível ${i + 1}</h2>
               <ion-icon onclick="criarProximoNivel(this)" name="create-outline"></ion-icon>
            </div>`
-=======
-    for (let i = 1; i < qtdNiveis; i++) {
-
-        levels += `<div id=${i + 1} class="criadorDadosIniciais2">
-                       <h2>Nível ${i + 1}</h2>
-                       <ion-icon onclick="criarProximoNivel(this)" name="create-outline"></ion-icon>
-                   </div>`;
->>>>>>> b7baddf5d5dc01ee2bdf54519f67f7fdddead31d
     }
     return levels;
 }
@@ -715,7 +675,6 @@ function criarProximoNivel(valor) {
     }
 }
 
-<<<<<<< HEAD
 function inserirInputsNivel(valor) {
     let niv = valor.parentNode;
 
@@ -741,8 +700,6 @@ function inserirInputsNivel(valor) {
     `
 }
 
-=======
->>>>>>> b7baddf5d5dc01ee2bdf54519f67f7fdddead31d
 function checkTituloNivel() {
     checkNivTelaNivel = false;
     nive = document.querySelector(".textNivel").value;
@@ -828,4 +785,3 @@ function VerificarNiveis() {
 
 functionsIniciais();
 // ===================================== Tela de Sucesso (criação do quizz) =========================================
->>>>>>> b7baddf5d5dc01ee2bdf54519f67f7fdddead31d
