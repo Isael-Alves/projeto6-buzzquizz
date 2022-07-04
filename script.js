@@ -346,6 +346,7 @@ let textoPergunta = "";
 let ArrayUrls = [];
 let ArrayRespostasCriadas = [];
 let QuestoesCriadas = [];
+let contador = 0;
 
 function InserirListaPerguntas() {
 
@@ -392,10 +393,9 @@ function InserirListaPerguntas() {
 
                 ${InserirOutrasPerguntas()}
                
-                <div class="prosseguirNiveis button" onclick="telaCriandoNiveis()">Prosseguir pra criar níveis</div>
+                <div class="prosseguirNiveis button">Prosseguir pra criar níveis</div>
             </section>
         </section>`;
-
 }
 
 function InserirOutrasPerguntas() {
@@ -425,6 +425,11 @@ function criarProximaPergunta(valor) {
     if (checkPergunta && checkCor && checkUrlImageQuestions && checkRespostas && Verificador) {
         CriacaoDasQuestionsOBJETO();
         inserirInputs(valor);
+        contador+=1;
+        if(contador === (qtdPerguntas - 1)){
+            document.querySelector(".prosseguirNiveis").addEventListener("click", telaCriandoNiveis);
+        }
+        
     } else {
 
         ArrayRespostasCriadas = [];
@@ -626,6 +631,7 @@ function checkRespostasTelaPerguntas() {
 let textoNvl = "", Porcent = "", UrlNiveis = "", DescNiveis = "";
 let checkNivTelaNivel = false, checkPorcentNiveis = false, checkUrlNiveis = false, checkDescNiveis = false;
 let LevelsCriados = [];
+let contadorNiveis= 0;
 
 function telaCriandoNiveis() {
     checkPerguntaTelaQuestion();
@@ -658,7 +664,7 @@ function telaCriandoNiveis() {
                     </div>
                 </div>
                 ${InserirListaNiveis()}
-                <div class="prosseguirFinalizar button" onclick="VerificarNiveis()">Finalizar Quizz</div>
+                <div class="prosseguirFinalizar button">Finalizar Quizz</div>
             </section>
         </section>`
 
@@ -691,6 +697,7 @@ function InserirListaNiveis() {
 }
 
 function criarProximoNivel(valor) {
+    contadorNiveis+=1;S
     checkTituloNivel();
     ckeckPorctTelaNiv();
     CheckUrlTelaNiveis();
@@ -718,6 +725,10 @@ function criarProximoNivel(valor) {
                 <input type="text"   class = "textoDescricaoNivel" placeholder="Descrição do nível">
             </div>
         </div>`
+        
+        if(contadorNiveis === qtdNiveis - 1){
+            () => { document.querySelector(".prosseguirFinalizar").addEventListener("click", VerificarNiveis)}
+        }
 
     } else {
         textoNvl = "";
@@ -832,7 +843,6 @@ function VerificarNiveis() {
     ckeckPorctTelaNiv();
     CheckUrlTelaNiveis();
     checkDescricoesNiveis();
-    //alterar valor para zero depois dos testes
     let ContZeroPorcent = 0;
 
     for (let i = 0; i < LevelsCriados.length; i++) {
