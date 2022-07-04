@@ -235,7 +235,7 @@ function FinishingQuizz(score) {
 // ===================================== Tela 3 (criação do quizz) =====================================================
 // ===================================== Tela Inicial (criação do quizz) ===============================================
 let checkUrlImage = false, checkTitulo = false, checkQtdPergs = false, checkNivels = false;
-let title = "", linKUrl = "", qtdPerguntas, qtdNiveis; 
+let title = "", linKUrl = "", qtdPerguntas, qtdNiveis;
 
 function IniciarCriacaoQuizz() {
     document.querySelector(".telaInicial").classList.add('hidden');
@@ -272,8 +272,8 @@ function checkTitle() {
 }
 
 function checkURL() {
-    const linKUrl = document.querySelector(".linkUrl").value;
-    const urlcorreto = (linKUrl.match(/\.(jpeg|jpg|gif|png)$/) !== null);
+    let linKUrl = document.querySelector(".linkUrl").value;
+    let urlcorreto = (linKUrl.match(/\.(jpeg|jpg|gif|png)$/) !== null);
     checkUrlImage = urlcorreto;
     return checkUrlImage, linKUrl;
 }
@@ -287,9 +287,9 @@ function checkQtdQuestions() {
 
 function checkQtdLevels() {
     checkNivels = false;
-    const qtdNiveis = document.querySelector(".qtdNiveis").value;
+    qtdNiveis = parseInt(document.querySelector(".qtdNiveis").value);
     if (qtdNiveis > 1) checkNivels = true;
-
+    console.log(qtdNiveis);
     return checkNivels, qtdNiveis;
 }
 
@@ -304,7 +304,7 @@ function checkInicial() {
     } else {
         alert('Por favor, preencha os dados corretamente!');
     }
-    console.log(qtdNiveis);
+
     checkUrlImage = false;
     checkTitulo = false;
     checkQtdPergs = false;
@@ -398,10 +398,12 @@ function criarProximaPergunta(valor) {
     if (checkPergunta && checkCor && checkUrlImageQuestions && checkRespostas && Verificador) {
         inserirInputs(valor);
     } else {
+        ArrayUrls.pop;
+        ArrayRespostasCriadas.pop;
         alert("Tem algo de errado, verifique se os tudo está preenchido de forma correta.");
     }
 
-    checkCor = checkPergunta = checkUrlImageQuestions = checkRespostas = false;
+    checkCor= false ,checkPergunta = false ,checkUrlImageQuestions= false ,checkRespostas= false;
     codCor = "";
     textoPergunta = "";
     ArrayUrls = [];
@@ -510,8 +512,8 @@ function corFundoTelaQuestions() {
 function checkURLPerguntas() {
     checkUrlImageQuestions = false;
     ArrayUrls = [];
-    const linKUrlCorreto = document.querySelector(".linkUrlCorreto").value;
-    const linksUrlErrados = document.querySelectorAll(".linkUrl");
+    let linKUrlCorreto = document.querySelector(".linkUrlCorreto").value;
+    let linksUrlErrados = document.querySelectorAll(".linkUrl");
 
     let verifidorUrl = false;
     if (linKUrlCorreto.match(/\.(jpeg|jpg|gif|png)$/) !== null) {
@@ -578,7 +580,7 @@ function telaCriandoNiveis() {
             <div class="criaQuizzTitulo">
                 <h1>Agora, decida os níveis</h1>
             </div>
-            <div id="1" class="criadorDadosIniciais2 aberto">
+            <div id="1" class="criadorDadosIniciais2 aberto2">
                 <h2>Nível 1</h2>
                 <div class="inputs">
                     <input type="text" class = "textNivel"           placeholder="Título do nível">
@@ -600,11 +602,11 @@ function InserirListaNiveis() {
     let levels;
 
     for (let i = 1; i < qtdNiveis; i++) {
-        levels += `
-            <div id=${i + 1} class="criadorDadosIniciais2">
-                <h2>Nível ${i + 1}</h2>
-                <ion-icon onclick="criarProximoNivel(this)" name="create-outline"></ion-icon>
-            </div>`
+
+        levels += `<div id=${i + 1} class="criadorDadosIniciais2">
+                       <h2>Nível ${i + 1}</h2>
+                       <ion-icon onclick="criarProximoNivel(this)" name="create-outline"></ion-icon>
+                   </div>`;
     }
     return levels;
 }
@@ -619,14 +621,14 @@ function criarProximoNivel(valor) {
 
         let niv = valor.parentNode;
 
-        let verificarNivelAberto = document.querySelector(".aberto");
+        let verNivelAberto = document.querySelector(".aberto2");
 
-        if (verificarNivelAberto !== null) {
-            verificarNivelAberto.classList.remove("aberto");
-            verificarNivelAberto.innerHTML = `<h2>Nível ${verificarNivelAberto.id}</h2>`;
+        if (verNivelAberto !== null) {
+            verNivelAberto.classList.remove("aberto2");
+            verNivelAberto.innerHTML = `<h2>Nível ${verNivelAberto.id}</h2>`;
         }
 
-        niv.classList.add("aberto");
+        niv.classList.add("aberto2");
         niv.innerHTML =
             `<div>
             <h2>Nível ${niv.id}</h2>
