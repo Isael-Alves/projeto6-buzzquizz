@@ -1,5 +1,5 @@
 let QuestionsEmbaralhadas = [];
-let Questions, id, id2, pergunt, correto, DadosQuizz;
+let Questions, id, id2, pergunt, correto, DadosQuizz, pai, textResultado, idEntrada;
 let newarrey = [];
 let soma = 0;
 let score = 0;
@@ -38,8 +38,9 @@ function BuscandoQuizzes() {
 function EntrandoQuizz(quizz) {
     document.querySelector(".telaInicial").classList.add("hidden");
     document.querySelector(".telaQuizz").classList.remove("hidden");
-
-    const Quizz = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${quizz.id}`);
+    console.log(quizz);
+    idEntrada=quizz;
+    let Quizz = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${quizz.id}`);
     Quizz.then((resposta) => {
         DadosQuizz = resposta.data;
         Questions = DadosQuizz.questions;
@@ -99,7 +100,7 @@ function shuffleArray(arr) {
 }
 
 function cardSelecionado(elemento) {
-    const pai = elemento.parentNode;
+    pai = elemento.parentNode;
     if (pai.classList.contains('selecionado') !== true) {
         pai.classList.add('selecionado');
         optionAnswer(elemento);
@@ -109,7 +110,6 @@ function cardSelecionado(elemento) {
 }
 
 function optionAnswer(element) {
-    const pai = element.parentNode;
     let filhos = pai.querySelectorAll('img');
     for (let i = 0; i < filhos.length; i++) {
         filhos[i].className += "esbranquicado";
@@ -197,7 +197,7 @@ function FinishingQuizz(score) {
                 console.log(level[t].minValue);
                 if (nivelcerto === level[t].minValue) {
                     console.log(nivelcerto);
-                    document.querySelector(".playerScore").innerHTML += `
+                 textResultado =  document.querySelector(".playerScore").innerHTML += `
             <div class="text">
                 <p>
                     ${score}% de acerto: ${level[t].title}!
@@ -216,8 +216,8 @@ function FinishingQuizz(score) {
             </ul>
         </article>
         <div class="finishQuizz">
-            <div class="button">Reiniciar Quizz</div>
-            <h6 class="backHome">Voltar pra home</h6>
+            <div class="button" onClick="reiniciarQuizz()">Reiniciar Quizz</div>
+            <h6 class="backHome" onClick="backHome()">Voltar pra home</h6>
         </div>`
                     break;
                 }
@@ -230,6 +230,36 @@ function FinishingQuizz(score) {
             nive--;
         }
     }
+}
+function backHome(){
+window.location.reload(true);
+}
+
+function reiniciarQuizz(){
+document.querySelector('.titleQuizz').scrollIntoView({block:"center",inline:"nearest"});
+
+soma=0;
+let indice =0;
+     
+    while (document.querySelectorAll('.selecionado').length !== 0){
+    document.querySelectorAll('.selecionado')[indice].classList.remove('selecionado');
+    }
+
+    while(document.querySelectorAll('.esbranquicado').length !== 0){
+    document.querySelectorAll('.esbranquicado')[indice].classList.remove('esbranquicado');
+    }
+
+    
+    while(document.querySelectorAll('.verde').length !== 0){
+    document.querySelectorAll('.verde')[indice].classList.remove('verde');
+    }
+
+    while(document.querySelectorAll('.vermelho').length !== 0){
+        document.querySelectorAll('.vermelho')[indice].classList.remove('vermelho');
+    }
+
+    document.querySelector('.playerScore').parentNode.removeChild(document.querySelector('.playerScore'));
+    EntrandoQuizz(idEntrada);
 }
 
 // ===================================== Tela 3 (criação do quizz) =====================================================
@@ -421,7 +451,7 @@ function inserirInputs(valor) {
     pergunta.classList.add("aberto");
 
     pergunta.innerHTML = `
-        <div>
+            <div>
                 <h2>Pergunta ${pergunta.id}</h2>
 
                 <div class="inputs">
@@ -430,29 +460,29 @@ function inserirInputs(valor) {
                 </div>
             </div>
             <div class="corretaCriador">
-                <h2>Resposta correta</h2>
-                <div class="inputs">
-                    <input type="text" class="textsRespostaCorreta" placeholder="Resposta correta">
-                    <input type="text" class="linkUrlCorreto" placeholder="URL da imagem">
-                </div>
+            <h2>Resposta correta</h2>
+            <div class="inputs">
+                <input type="text" class="textsRespostaCorreta" placeholder="Resposta correta">
+                <input type="text" class="linkUrlCorreto" placeholder="URL da imagem">
             </div>
-            <div class="incorretaCriador">
-                <h2>Respostas incorretas</h2>
-                <div>
-                    <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 1">
-                    <input type="text" class="linkUrl" placeholder="URL da imagem 1">
-                </div>
-                <div>
-                    <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 2">
-                    <input type="text" class="linkUrl" placeholder="URL da imagem 2">
-                </div>
-                <div>
-                    <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 3">
-                    <input type="text" class="linkUrl" placeholder="URL da imagem 3">
-                </div>
+        </div>
+        <div class="incorretaCriador">
+            <h2>Respostas incorretas</h2>
+            <div>
+                <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 1">
+                <input type="text" class="linkUrl" placeholder="URL da imagem 1">
             </div>
+            <div>
+                <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 2">
+                <input type="text" class="linkUrl" placeholder="URL da imagem 2">
+            </div>
+            <div>
+                <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 3">
+                <input type="text" class="linkUrl" placeholder="URL da imagem 3">
+            </div>
+        </div>
         </div>`;
-}
+    }
 
 function checkPerguntaTelaQuestion() {
     checkPergunta = false;
@@ -570,25 +600,25 @@ functionsIniciais();
 
 function telaCriandoNiveis() {
     document.querySelector('.telaCriandoQuizz').innerHTML += `
-    
-    <section class="tela niveis hidden">
-                <section class="criaQuizz">
-                    <div class="criaQuizzTitulo">
-                        <h1>Agora, decida os níveis</h1>
+
+<section class="tela niveis hidden">
+            <section class="criaQuizz">
+                <div class="criaQuizzTitulo">
+                    <h1>Agora, decida os níveis</h1>
+                </div>
+                <div id="1" class="criadorDadosIniciais2 aberto">
+                        <h2>Nível 1</h2>
+                    <div class="inputs">
+                        <input type="text" placeholder="Título do nível">
+                        <input type="text" placeholder="% de acerto mínima">
+                        <input type="text" placeholder="URL da imagem do nível">
+                        <input type="text" placeholder="Descrição do nível">
                     </div>
-                    <div id="1" class="criadorDadosIniciais2 aberto">
-                            <h2>Nível 1</h2>
-                        <div class="inputs">
-                            <input type="text" placeholder="Título do nível">
-                            <input type="text" placeholder="% de acerto mínima">
-                            <input type="text" placeholder="URL da imagem do nível">
-                            <input type="text" placeholder="Descrição do nível">
-                        </div>
-                    </div>
-                    ${InserirListaNiveis()}
-                    <div class="prosseguirFinalizar button">Finalizar Quizz</div>
-                </section>
-            </section>`
+                </div>
+                ${InserirListaNiveis()}
+                <div class="prosseguirFinalizar button">Finalizar Quizz</div>
+            </section>
+        </section>`
 
 }
 
@@ -598,10 +628,10 @@ function InserirListaNiveis() {
 
     for (let i = 1; i < qtdLevels; i++) {
         leveis += `
-              <div id=${i + 1} class="criadorDadosIniciais2">
-                  <h2>Nível ${i + 1}</h2>
-                  <ion-icon onclick="criarProximoNivel(this)" name="create-outline"></ion-icon>
-               </div>`
+          <div id=${i + 1} class="criadorDadosIniciais2">
+              <h2>Nível ${i + 1}</h2>
+              <ion-icon onclick="criarProximoNivel(this)" name="create-outline"></ion-icon>
+           </div>`
     }
     return leveis;
 }
@@ -633,16 +663,16 @@ function inserirInputsNivel(valor) {
     niv.classList.add("aberto");
 
     niv.innerHTML = `
-            <div>
-                <h2>Nível ${niv.id}</h2>
-                <div class="inputs">
-                <input type="text" class="textNivel" placeholder="Título do nível">
-                <input type="text" class="textPorcentMin" placeholder="% de acerto mínima">
-                <input type="text" class="textPorcentMin" placeholder="URL da imagem do nível">
-                <input type="text" placeholder="Descrição do nível">
-            </div>
+        <div>
+            <h2>Nível ${niv.id}</h2>
+            <div class="inputs">
+            <input type="text" class="textNivel" placeholder="Título do nível">
+            <input type="text" class="textPorcentMin" placeholder="% de acerto mínima">
+            <input type="text" class="textPorcentMin" placeholder="URL da imagem do nível">
+            <input type="text" placeholder="Descrição do nível">
         </div>
-        `
+    </div>
+    `
 }
 
 function checkTituloNivel() {
