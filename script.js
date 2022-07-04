@@ -39,7 +39,7 @@ function EntrandoQuizz(quizz) {
     document.querySelector(".telaInicial").classList.add("hidden");
     document.querySelector(".telaQuizz").classList.remove("hidden");
     console.log(quizz);
-    idEntrada=quizz;
+    idEntrada = quizz;
     let Quizz = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${quizz.id}`);
     Quizz.then((resposta) => {
         DadosQuizz = resposta.data;
@@ -197,7 +197,7 @@ function FinishingQuizz(score) {
                 console.log(level[t].minValue);
                 if (nivelcerto === level[t].minValue) {
                     console.log(nivelcerto);
-                 textResultado =  document.querySelector(".playerScore").innerHTML += `
+                    textResultado = document.querySelector(".playerScore").innerHTML += `
             <div class="text">
                 <p>
                     ${score}% de acerto: ${level[t].title}!
@@ -231,30 +231,30 @@ function FinishingQuizz(score) {
         }
     }
 }
-function backHome(){
-window.location.reload(true);
+function backHome() {
+    window.location.reload(true);
 }
 
-function reiniciarQuizz(){
-document.querySelector('.titleQuizz').scrollIntoView({block:"center",inline:"nearest"});
+function reiniciarQuizz() {
+    document.querySelector('.titleQuizz').scrollIntoView({ block: "center", inline: "nearest" });
 
-soma=0;
-let indice =0;
-     
-    while (document.querySelectorAll('.selecionado').length !== 0){
-    document.querySelectorAll('.selecionado')[indice].classList.remove('selecionado');
+    soma = 0;
+    let indice = 0;
+
+    while (document.querySelectorAll('.selecionado').length !== 0) {
+        document.querySelectorAll('.selecionado')[indice].classList.remove('selecionado');
     }
 
-    while(document.querySelectorAll('.esbranquicado').length !== 0){
-    document.querySelectorAll('.esbranquicado')[indice].classList.remove('esbranquicado');
+    while (document.querySelectorAll('.esbranquicado').length !== 0) {
+        document.querySelectorAll('.esbranquicado')[indice].classList.remove('esbranquicado');
     }
 
-    
-    while(document.querySelectorAll('.verde').length !== 0){
-    document.querySelectorAll('.verde')[indice].classList.remove('verde');
+
+    while (document.querySelectorAll('.verde').length !== 0) {
+        document.querySelectorAll('.verde')[indice].classList.remove('verde');
     }
 
-    while(document.querySelectorAll('.vermelho').length !== 0){
+    while (document.querySelectorAll('.vermelho').length !== 0) {
         document.querySelectorAll('.vermelho')[indice].classList.remove('vermelho');
     }
 
@@ -433,7 +433,7 @@ function criarProximaPergunta(valor) {
         alert("Tem algo de errado, verifique se os tudo está preenchido de forma correta.");
     }
 
-    checkCor= false ,checkPergunta = false ,checkUrlImageQuestions= false ,checkRespostas= false;
+    checkCor = false, checkPergunta = false, checkUrlImageQuestions = false, checkRespostas = false;
     codCor = "";
     textoPergunta = "";
     ArrayUrls = [];
@@ -483,7 +483,7 @@ function inserirInputs(valor) {
                 <input type="text" class="linkUrl" placeholder="URL da imagem 3">
             </div>
         `;
-    }
+}
 
 function checkPerguntaTelaQuestion() {
     checkPergunta = false;
@@ -722,7 +722,7 @@ function ckeckPorctTelaNiv() {
         ArrayPorcent.push(porcent);
     }
 
-   return checkPorcent;
+    return checkPorcent;
 }
 
 function CheckUrlTelaNiveis() {
