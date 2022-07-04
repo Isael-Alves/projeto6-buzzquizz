@@ -697,7 +697,7 @@ function InserirListaNiveis() {
 }
 
 function criarProximoNivel(valor) {
-    contadorNiveis+=1;S
+    contadorNiveis+=1;
     checkTituloNivel();
     ckeckPorctTelaNiv();
     CheckUrlTelaNiveis();
@@ -727,7 +727,7 @@ function criarProximoNivel(valor) {
         </div>`
         
         if(contadorNiveis === qtdNiveis - 1){
-            () => { document.querySelector(".prosseguirFinalizar").addEventListener("click", VerificarNiveis)}
+             document.querySelector(".prosseguirFinalizar").addEventListener("click", VerificarNiveis);
         }
 
     } else {
@@ -904,6 +904,7 @@ function tratSucesso(dados) {
             <h6 class="backHome" onClick="telaInicialAposCriarQuizz()">Voltar pra home</h6>
         </div>
 `
+armazenaDadosQuizzCriado();
 }
 
 function telaInicialAposCriarQuizz() {
@@ -940,4 +941,9 @@ function EntrandoQuizz1(idQuizzCriado) {
         });
         inicioMostraResult();
     });
+}
+
+function armazenaDadosQuizzCriado(){
+    const dadosSerializados = JSON.stringify(respostaLancamento);
+    localStorage.setItem("lista", dadosSerializados); 
 }
