@@ -1,6 +1,7 @@
 let QuestionsEmbaralhadas = [];
 let Questions, id, id2, pergunt, correto, DadosQuizz, pai, textResultado, idEntrada;
 let newarrey = [];
+let arrayDeMeusQuizzes = [];
 let soma = 0;
 let score = 0;
 let cont = 1;
@@ -11,10 +12,35 @@ function functionsIniciais() {
 }
 
 function IniciandoBuzzQuizz() {
-    document.querySelector(".criarQuizzes").innerHTML += `  
-            <h4>Você não criou nenhum quizz ainda :(</h4>
-            <div class="buttonCriarQuizz" onclick="IniciarCriacaoQuizz()">Criar Quizz</div>  
-    `
+    if (arrayDeMeusQuizzes === []){
+        document.querySelector(".criarQuizzes").innerHTML += `  
+        <h4>Você não criou nenhum quizz ainda :(</h4>
+        <div class="buttonCriarQuizz" onclick="IniciarCriacaoQuizz()">Criar Quizz</div> `
+    }else {
+        document.querySelector(".telaInicial").innerHTML += `
+        
+        <section class="criarQuizzesComMeusQuizzes">
+            <div>
+                <h2>Seus Quizzes</h2>
+                <ion-icon name="add-circle"/>
+            </div>
+                <ul>
+                ${MeuQuizz()}
+                </ul>
+        </section>`
+    }  
+}
+
+function MeuQuizz(){
+    let MeusQuizz = ``;
+        arrayDeMeusQuizzes.map((dados, i) => {
+        MeusQuizz += `
+            <li class="quizz" id=${dados.id} key=${i} onclick="EntrandoQuizz(this)">
+               <img src="${dados.image}" alt="">
+               <h3>${dados.title}</h3>'
+            </li>`
+        });
+        return  MeusQuizz;
 }
 
 function BuscandoQuizzes() {
