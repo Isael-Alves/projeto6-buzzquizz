@@ -17,37 +17,37 @@ function IniciandoBuzzQuizz() {
     let lista = JSON.parse(listaSerializada);
     arrayDeMeusQuizzes.push(lista);
     
-    if (arrayDeMeusQuizzes === null){
+    if (true){
         document.querySelector(".criarQuizzes").innerHTML += `  
         <h4>Você não criou nenhum quizz ainda :(</h4>
         <div class="buttonCriarQuizz" onclick="IniciarCriacaoQuizz()">Criar Quizz</div> `
     }else {
-       console.log(arrayDeMeusQuizzes[0].id);
-       document.querySelector(".criarQuizzes").innerHTML += `
-       <section class="criarQuizzesComMeusQuizzes">
-            <div>
-                <h2>Seus Quizzes</h2>
-                <ion-icon onclick="IniciarCriacaoQuizz()" name="add-circle"/>
-            </div>
-                <ul>
-                ${MeuQuizz()}
-                </ul>
-        </section>
-        `
+       
+    //    document.querySelector(".criarQuizzes").innerHTML += `
+    //    <section class="criarQuizzesComMeusQuizzes">
+    //         <div>
+    //             <h2>Seus Quizzes</h2>
+    //             <ion-icon onclick="IniciarCriacaoQuizz()" name="add-circle"/>
+    //         </div>
+    //             <ul>
+    //             ${MeuQuizz()}
+    //             </ul>
+    //     </section>
+    //     `
     }  
 }
 
-function MeuQuizz(){
-    let MeusQuizz = ``;
-        arrayDeMeusQuizzes.map((dados, i) => {
-        MeusQuizz += `
-            <li class="quizz" id=${dados.id} key=${i} onclick="EntrandoQuizz(this)">
-               <img src="${dados.image}" alt="">
-               <h3>${dados.title}</h3>'
-            </li>`
-        });
-        return  MeusQuizz;
-}
+// function MeuQuizz(){
+//     let MeusQuizz = ``;
+//         arrayDeMeusQuizzes.map((dados, i) => {
+//         MeusQuizz += `
+//             <li class="quizz" id=${dados.id} key=${i} onclick="EntrandoQuizz(this)">
+//                <img src="${dados.image}" alt="">
+//                <h3>${dados.title}</h3>'
+//             </li>`
+//         });
+//         return  MeusQuizz;
+// }
 
 function BuscandoQuizzes() {
     let promise = axios.get('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes');
