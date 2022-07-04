@@ -422,7 +422,7 @@ function inserirInputs(valor) {
     pergunta.classList.add("aberto");
 
     pergunta.innerHTML = `
-        <div>
+            <div>
                 <h2>Pergunta ${pergunta.id}</h2>
 
                 <div class="inputs">
@@ -431,11 +431,11 @@ function inserirInputs(valor) {
                 </div>
             </div>
             <div class="corretaCriador">
-            <h2>Resposta correta</h2>
-            <div class="inputs">
-                <input type="text" class="textsRespostaCorreta" placeholder="Resposta correta">
-                <input type="text" class="linkUrlCorreto" placeholder="URL da imagem">
-            </div>
+                <h2>Resposta correta</h2>
+                <div class="inputs">
+                    <input type="text" class="textsRespostaCorreta" placeholder="Resposta correta">
+                    <input type="text" class="linkUrlCorreto" placeholder="URL da imagem">
+                </div>
             </div>
             <div class="incorretaCriador">
                 <h2>Respostas incorretas</h2>
@@ -451,8 +451,7 @@ function inserirInputs(valor) {
                     <input type="text" class="textsRespostaIncorreta" placeholder="Resposta incorreta 3">
                     <input type="text" class="linkUrl" placeholder="URL da imagem 3">
                 </div>
-            </div>
-        </div>`;
+            </div>`;
 }
 
 function checkPerguntaTelaQuestion() {
